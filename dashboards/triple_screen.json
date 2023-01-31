@@ -1,53 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_INFINITY",
-      "label": "Infinity",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "yesoreyeram-infinity-datasource",
-      "pluginName": "Infinity"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "candlestick",
-      "name": "Candlestick",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "9.3.2"
-    },
-    {
-      "type": "panel",
-      "id": "marcusolsson-dynamictext-panel",
-      "name": "Dynamic Text",
-      "version": "2.2.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "yesoreyeram-infinity-datasource",
-      "name": "Infinity",
-      "version": "1.3.0"
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -67,22 +18,13 @@
           "type": "dashboard"
         },
         "type": "dashboard"
-      },
-      {
-        "datasource": {
-          "type": "yesoreyeram-infinity-datasource",
-          "uid": "${DS_INFINITY}"
-        },
-        "enable": true,
-        "iconColor": "red",
-        "name": "New annotation"
       }
     ]
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 3,
   "links": [
     {
       "asDropdown": false,
@@ -109,80 +51,106 @@
       "tooltip": "Market Data API Docs - Polygon.io",
       "type": "link",
       "url": "https://polygon.io/docs/stocks/getting-started"
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Company Profile",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://invest.ameritrade.com/grid/p/site#r=jPage/https://research.ameritrade.com/grid/wwws/research/stocks/summary?c_name=invest_VENDOR&symbol=$ticker"
     }
   ],
   "liveNow": false,
   "panels": [
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
-      "description": "",
+      "collapsed": true,
       "gridPos": {
-        "h": 8,
-        "w": 20,
+        "h": 1,
+        "w": 24,
         "x": 0,
         "y": 0
       },
-      "id": 25,
-      "options": {
-        "content": "### [{{Title}}]({{URL}})\n\n*{{Date}}*\n\n{{Description}}\n\n",
-        "defaultContent": "The query didn't return any results.",
-        "editor": {
-          "format": "auto",
-          "height": 222,
-          "language": "markdown"
-        },
-        "everyRow": true,
-        "helpers": ""
-      },
-      "pluginVersion": "9.3.2",
-      "targets": [
+      "id": 27,
+      "panels": [
         {
-          "columns": [
-            {
-              "selector": "title",
-              "text": "Title",
-              "type": "string"
-            },
-            {
-              "selector": "article_url",
-              "text": "URL",
-              "type": "string"
-            },
-            {
-              "selector": "description",
-              "text": "Description",
-              "type": "string"
-            },
-            {
-              "selector": "published_utc",
-              "text": "Date",
-              "type": "timestamp"
-            }
-          ],
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "uid": "wDc2JLo4z"
           },
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "parser": "simple",
-          "refId": "A",
-          "root_selector": "",
-          "source": "url",
-          "type": "json",
-          "url": "https://api.polygon.io/v2/reference/news?ticker=$ticker",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "description": "",
+          "gridPos": {
+            "h": 18,
+            "w": 20,
+            "x": 0,
+            "y": 6
+          },
+          "id": 25,
+          "options": {
+            "content": "<h3>\n  <a href='{{URL}}' target='_blank'>\n    {{Title}}\n  </a>\n</h3>\n<p>{{Description}}</p>\n<p><small>{{Date}}</small></p>\n\n",
+            "defaultContent": "The query didn't return any results.",
+            "editor": {
+              "format": "auto",
+              "height": 222,
+              "language": "html"
+            },
+            "everyRow": true,
+            "helpers": ""
+          },
+          "pluginVersion": "9.3.2",
+          "targets": [
+            {
+              "columns": [
+                {
+                  "selector": "title",
+                  "text": "Title",
+                  "type": "string"
+                },
+                {
+                  "selector": "article_url",
+                  "text": "URL",
+                  "type": "string"
+                },
+                {
+                  "selector": "description",
+                  "text": "Description",
+                  "type": "string"
+                },
+                {
+                  "selector": "published_utc",
+                  "text": "Date",
+                  "type": "timestamp"
+                }
+              ],
+              "datasource": {
+                "type": "yesoreyeram-infinity-datasource",
+                "uid": "wDc2JLo4z"
+              },
+              "filters": [],
+              "format": "table",
+              "global_query_id": "",
+              "parser": "simple",
+              "refId": "A",
+              "root_selector": "",
+              "source": "url",
+              "type": "json",
+              "url": "https://api.polygon.io/v2/reference/news?ticker=$ticker",
+              "url_options": {
+                "data": "",
+                "method": "GET"
+              }
+            }
+          ],
+          "title": "Latest News",
+          "type": "marcusolsson-dynamictext-panel"
         }
       ],
-      "title": "Latest News",
-      "type": "marcusolsson-dynamictext-panel"
+      "title": "News",
+      "type": "row"
     },
     {
       "collapsed": false,
@@ -190,7 +158,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 1
       },
       "id": 16,
       "panels": [],
@@ -200,7 +168,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
+        "uid": "wDc2JLo4z"
       },
       "description": "",
       "fieldConfig": {
@@ -299,7 +267,7 @@
         "h": 10,
         "w": 10,
         "x": 0,
-        "y": 9
+        "y": 2
       },
       "id": 4,
       "options": {
@@ -361,8 +329,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -394,8 +361,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -427,8 +393,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -459,7 +424,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
+        "uid": "wDc2JLo4z"
       },
       "description": "",
       "fieldConfig": {
@@ -556,7 +521,7 @@
         "h": 10,
         "w": 10,
         "x": 10,
-        "y": 9
+        "y": 2
       },
       "id": 3,
       "options": {
@@ -614,8 +579,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -646,8 +610,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -679,8 +642,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -711,7 +673,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
+        "uid": "wDc2JLo4z"
       },
       "fieldConfig": {
         "defaults": {
@@ -794,7 +756,7 @@
         "h": 5,
         "w": 8,
         "x": 0,
-        "y": 19
+        "y": 12
       },
       "id": 8,
       "options": {
@@ -825,8 +787,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -850,7 +811,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
+        "uid": "wDc2JLo4z"
       },
       "fieldConfig": {
         "defaults": {
@@ -884,7 +845,7 @@
         "h": 5,
         "w": 2,
         "x": 8,
-        "y": 19
+        "y": 12
       },
       "id": 10,
       "options": {
@@ -917,8 +878,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -941,7 +901,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
+        "uid": "wDc2JLo4z"
       },
       "fieldConfig": {
         "defaults": {
@@ -1024,7 +984,7 @@
         "h": 5,
         "w": 8,
         "x": 10,
-        "y": 19
+        "y": 12
       },
       "id": 11,
       "options": {
@@ -1055,8 +1015,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1080,7 +1039,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
+        "uid": "wDc2JLo4z"
       },
       "fieldConfig": {
         "defaults": {
@@ -1114,7 +1073,7 @@
         "h": 5,
         "w": 2,
         "x": 18,
-        "y": 19
+        "y": 12
       },
       "id": 13,
       "options": {
@@ -1147,8 +1106,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1171,7 +1129,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
+        "uid": "wDc2JLo4z"
       },
       "fieldConfig": {
         "defaults": {
@@ -1237,7 +1195,7 @@
         "h": 5,
         "w": 8,
         "x": 0,
-        "y": 24
+        "y": 17
       },
       "id": 7,
       "options": {
@@ -1267,8 +1225,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1289,10 +1246,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -1325,7 +1279,7 @@
         "h": 5,
         "w": 2,
         "x": 8,
-        "y": 24
+        "y": 17
       },
       "id": 9,
       "options": {
@@ -1358,8 +1312,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1380,10 +1333,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1448,7 +1398,7 @@
         "h": 5,
         "w": 8,
         "x": 10,
-        "y": 24
+        "y": 17
       },
       "id": 19,
       "options": {
@@ -1478,8 +1428,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1500,10 +1449,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -1536,7 +1482,7 @@
         "h": 5,
         "w": 2,
         "x": 18,
-        "y": 24
+        "y": 17
       },
       "id": 14,
       "options": {
@@ -1569,8 +1515,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1596,7 +1541,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 22
       },
       "id": 18,
       "panels": [],
@@ -1604,10 +1549,7 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -1615,7 +1557,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "green",
@@ -1639,7 +1582,7 @@
         "h": 3,
         "w": 10,
         "x": 0,
-        "y": 30
+        "y": 23
       },
       "id": 20,
       "options": {
@@ -1672,8 +1615,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1695,10 +1637,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -1706,7 +1645,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue"
+                "color": "blue",
+                "value": null
               },
               {
                 "color": "red",
@@ -1730,7 +1670,7 @@
         "h": 3,
         "w": 10,
         "x": 10,
-        "y": 30
+        "y": 23
       },
       "id": 22,
       "options": {
@@ -1763,8 +1703,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1786,10 +1725,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
+      "datasource": {},
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1839,7 +1775,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1854,7 +1791,7 @@
         "h": 9,
         "w": 20,
         "x": 0,
-        "y": 33
+        "y": 26
       },
       "hideTimeOverride": false,
       "id": 2,
@@ -1919,8 +1856,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1944,10 +1880,7 @@
       "type": "candlestick"
     },
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
+      "datasource": {},
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1990,7 +1923,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2005,7 +1939,7 @@
         "h": 6,
         "w": 20,
         "x": 0,
-        "y": 42
+        "y": 35
       },
       "id": 5,
       "options": {
@@ -2063,8 +1997,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -2087,10 +2020,7 @@
       "type": "candlestick"
     },
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2131,7 +2061,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "green",
@@ -2154,7 +2085,7 @@
         "h": 6,
         "w": 20,
         "x": 0,
-        "y": 48
+        "y": 41
       },
       "id": 12,
       "options": {
@@ -2184,8 +2115,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -2207,10 +2137,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2251,7 +2178,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2291,7 +2219,7 @@
         "h": 5,
         "w": 20,
         "x": 0,
-        "y": 54
+        "y": 47
       },
       "id": 21,
       "options": {
@@ -2322,8 +2250,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -2357,8 +2284,8 @@
       {
         "current": {
           "selected": false,
-          "text": "WM",
-          "value": "WM"
+          "text": "PFE",
+          "value": "PFE"
         },
         "hide": 1,
         "includeAll": false,
@@ -2383,20 +2310,20 @@
           }
         ],
         "query": "SPY, QQQ, DIA",
-        "queryValue": "WM",
+        "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
       }
     ]
   },
   "time": {
-    "from": "now-90d",
+    "from": "now-180d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Triple Screen Dashboard",
   "uid": "9sDb825Vk",
-  "version": 14,
+  "version": 57,
   "weekStart": ""
 }

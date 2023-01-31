@@ -1,0 +1,1451 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 4,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "finance"
+      ],
+      "targetBlank": false,
+      "title": "New link",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Price Alerts",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://sejwilliams.grafana.net/d/skhYAa2Vk/watch-list-stocks?orgId=1&editPanel=6&tab=alert"
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "RSI Alerts",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://sejwilliams.grafana.net/d/skhYAa2Vk/watch-list-stocks?orgId=1&editPanel=14&tab=alert"
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "REST API Docs - Polygon.io",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://polygon.io/docs/stocks/getting-started"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 158,
+      "options": {
+        "buttonGroup": {
+          "orientation": "left",
+          "size": "sm"
+        },
+        "elements": [
+          {
+            "id": "ticker",
+            "labelWidth": 10,
+            "section": "",
+            "title": "Ticker",
+            "tooltip": "",
+            "type": "string",
+            "value": "TLT",
+            "width": 10
+          },
+          {
+            "id": "kind",
+            "labelWidth": 10,
+            "options": [
+              {
+                "label": "STOCK",
+                "value": "STOCK"
+              },
+              {
+                "label": "ETF",
+                "value": "ETF"
+              }
+            ],
+            "section": "",
+            "title": "Kind",
+            "tooltip": "",
+            "type": "radio",
+            "unit": "",
+            "value": "ETF",
+            "width": 10
+          },
+          {
+            "id": "operation",
+            "labelWidth": 10,
+            "options": [
+              {
+                "label": "ADD",
+                "value": "add"
+              },
+              {
+                "label": "DELETE",
+                "value": "delete"
+              }
+            ],
+            "section": "",
+            "title": "Operation",
+            "tooltip": "",
+            "type": "radio",
+            "value": "delete",
+            "width": 10
+          }
+        ],
+        "initial": {
+          "code": "console.log(data, response, initial, elements)",
+          "contentType": "application/json",
+          "header": [],
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "-",
+          "url": "http://localhost:5000/"
+        },
+        "layout": {
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "apps",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "update": {
+          "code": "if (response && response.ok) {\n  response.json().then((resp) => {\n    notifySuccess([\"Update\", resp[\"result\"]]);\n    initialRequest();\n  });\n} else {\n  response.json().then((resp) => {\n    notifyError([\"Error\", resp[\"result\"]]);\n    initialRequest();\n  });\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "header": [],
+          "method": "POST",
+          "updatedOnly": false,
+          "url": "http://localhost:5000/watchlist"
+        }
+      },
+      "title": "Watch List",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "grafana-mongodb-datasource"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 55,
+      "options": {
+        "alertInstanceLabelFilter": "",
+        "alertName": "BUY STOCK",
+        "dashboardAlerts": false,
+        "folder": {
+          "id": 257,
+          "title": "Finance"
+        },
+        "groupBy": [],
+        "groupMode": "default",
+        "maxItems": 20,
+        "sortOrder": 1,
+        "stateFilter": {
+          "error": true,
+          "firing": true,
+          "noData": false,
+          "normal": false,
+          "pending": true
+        },
+        "viewMode": "list"
+      },
+      "title": "Buy - Firing",
+      "type": "alertlist"
+    },
+    {
+      "datasource": {
+        "type": "grafana-mongodb-datasource"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 71,
+      "options": {
+        "alertInstanceLabelFilter": "",
+        "alertName": "SELL STOCK",
+        "dashboardAlerts": false,
+        "folder": {
+          "id": 257,
+          "title": "Finance"
+        },
+        "groupBy": [],
+        "groupMode": "default",
+        "maxItems": 20,
+        "sortOrder": 1,
+        "stateFilter": {
+          "error": true,
+          "firing": true,
+          "noData": false,
+          "normal": false,
+          "pending": true
+        },
+        "viewMode": "list"
+      },
+      "title": "Sell - Firing",
+      "type": "alertlist"
+    },
+    {
+      "datasource": {
+        "type": "grafana-mongodb-datasource"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 7,
+        "x": 12,
+        "y": 0
+      },
+      "id": 126,
+      "options": {
+        "alertInstanceLabelFilter": "",
+        "alertName": "",
+        "dashboardAlerts": false,
+        "folder": {
+          "id": 257,
+          "title": "Finance"
+        },
+        "groupBy": [],
+        "groupMode": "default",
+        "maxItems": 20,
+        "sortOrder": 1,
+        "stateFilter": {
+          "error": true,
+          "firing": false,
+          "noData": false,
+          "normal": true,
+          "pending": true
+        },
+        "viewMode": "list"
+      },
+      "title": "Normal or Pending",
+      "type": "alertlist"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "id": 2,
+      "panels": [],
+      "repeat": "watchlist",
+      "repeatDirection": "h",
+      "title": "Stock - ${watchlist}",
+      "type": "row"
+    },
+    {
+      "datasource": {},
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "dash": [
+                10,
+                10
+              ],
+              "fill": "dash"
+            },
+            "lineWidth": 1,
+            "pointSize": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SMA - 50"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SMA - 100"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 6
+      },
+      "id": 87,
+      "links": [
+        {
+          "targetBlank": false,
+          "title": "Triple Screen",
+          "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1var-ticker=${watchlist}&refresh=1m&from=now-6M&to=now"
+        }
+      ],
+      "options": {
+        "candleStyle": "candles",
+        "colorStrategy": "open-close",
+        "colors": {
+          "down": "red",
+          "up": "green"
+        },
+        "fields": {},
+        "includeAllFields": true,
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": false
+        },
+        "mode": "candles+volume"
+      },
+      "pluginVersion": "9.3.2-45041",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "t",
+              "text": "ts",
+              "type": "timestamp_epoch"
+            },
+            {
+              "selector": "o",
+              "text": "Open",
+              "type": "number"
+            },
+            {
+              "selector": "h",
+              "text": "High",
+              "type": "number"
+            },
+            {
+              "selector": "l",
+              "text": "Low",
+              "type": "number"
+            },
+            {
+              "selector": "c",
+              "text": "Close",
+              "type": "number"
+            },
+            {
+              "selector": "v",
+              "text": "Volume",
+              "type": "number"
+            }
+          ],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "results",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.polygon.io/v2/aggs/ticker/${watchlist}/range/1/week/${__from}/${__to}?adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        },
+        {
+          "columns": [
+            {
+              "selector": "timestamp",
+              "text": "ts",
+              "type": "timestamp_epoch"
+            },
+            {
+              "selector": "value",
+              "text": "SMA - 50",
+              "type": "number"
+            }
+          ],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "parser": "backend",
+          "refId": "B",
+          "root_selector": "results.values",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.polygon.io/v1/indicators/sma/${watchlist}/?timespan=week&window=10&limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        },
+        {
+          "columns": [
+            {
+              "selector": "timestamp",
+              "text": "ts",
+              "type": "timestamp_epoch"
+            },
+            {
+              "selector": "value",
+              "text": "SMA - 100",
+              "type": "number"
+            }
+          ],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "parser": "backend",
+          "refId": "C",
+          "root_selector": "results.values",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.polygon.io/v1/indicators/sma/${watchlist}/?timespan=week&window=20&limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        }
+      ],
+      "title": "Week",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
+      "type": "candlestick"
+    },
+    {
+      "datasource": {},
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 5,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "links": [
+            {
+              "title": "Google",
+              "url": "https://www.google.com"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#b1b7bd",
+                "value": 30
+              },
+              {
+                "color": "#afb7bf",
+                "value": 70
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Close"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "text",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SMA-50"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "palette-classic"
+                }
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    10,
+                    10
+                  ],
+                  "fill": "dash"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SMA-100"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "palette-classic"
+                }
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    10,
+                    10
+                  ],
+                  "fill": "dash"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 6,
+        "y": 6
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.3.2-45041",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "t",
+              "text": "ts",
+              "type": "timestamp_epoch"
+            },
+            {
+              "selector": "c",
+              "text": "Close",
+              "type": "number"
+            }
+          ],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "results",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.polygon.io/v2/aggs/ticker/${watchlist}/range/1/day/${__from}/${__to}?adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        },
+        {
+          "columns": [
+            {
+              "selector": "timestamp",
+              "text": "ts",
+              "type": "timestamp_epoch"
+            },
+            {
+              "selector": "value",
+              "text": "SMA-50",
+              "type": "number"
+            }
+          ],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "parser": "backend",
+          "refId": "B",
+          "root_selector": "results.values",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.polygon.io/v1/indicators/sma/${watchlist}/?timespan=day&window=50&limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        },
+        {
+          "columns": [
+            {
+              "selector": "timestamp",
+              "text": "ts",
+              "type": "timestamp_epoch"
+            },
+            {
+              "selector": "value",
+              "text": "SMA-100",
+              "type": "number"
+            }
+          ],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "parser": "backend",
+          "refId": "C",
+          "root_selector": "results.values",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.polygon.io/v1/indicators/sma/${watchlist}/?timespan=day&window=100&limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        }
+      ],
+      "title": "Day ",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {},
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": true,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "linearThreshold": 1,
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PERCENT_CHANGE_WATCHLIST"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "${watchlist}"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "text",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PERCENT_CHANGE_SPY"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "SPY"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "palette-classic"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PERCENT_CHANGE_QQQ"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "QQQ"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "palette-classic"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PERCENT_CHANGE_DIA"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "DIA"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "palette-classic"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 12,
+        "y": 6
+      },
+      "id": 89,
+      "options": {
+        "legend": {
+          "calcs": [
+            "last"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.3.2-45365",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "c",
+              "text": "START_1",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": true,
+          "parser": "backend",
+          "refId": "START_WATCHLIST",
+          "root_selector": "results",
+          "source": "url",
+          "summarizeExpression": "",
+          "type": "json",
+          "url": "https://api.polygon.io/v2/aggs/ticker/${watchlist}/range/1/week/${__from}/${__from}?adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        },
+        {
+          "columns": [
+            {
+              "selector": "c",
+              "text": "START_2",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": true,
+          "parser": "backend",
+          "refId": "START_QQQ",
+          "root_selector": "results",
+          "source": "url",
+          "summarizeExpression": "",
+          "type": "json",
+          "url": "https://api.polygon.io/v2/aggs/ticker/QQQ/range/1/week/${__from}/${__from}?adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        },
+        {
+          "columns": [
+            {
+              "selector": "c",
+              "text": "START_3",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": true,
+          "parser": "backend",
+          "refId": "START_SPY",
+          "root_selector": "results",
+          "source": "url",
+          "summarizeExpression": "",
+          "type": "json",
+          "url": "https://api.polygon.io/v2/aggs/ticker/SPY/range/1/week/${__from}/${__from}?adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        },
+        {
+          "columns": [
+            {
+              "selector": "c",
+              "text": "START_3",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": true,
+          "parser": "backend",
+          "refId": "START_DIA",
+          "root_selector": "results",
+          "source": "url",
+          "summarizeExpression": "",
+          "type": "json",
+          "url": "https://api.polygon.io/v2/aggs/ticker/DIA/range/1/week/${__from}/${__from}?adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        },
+        {
+          "columns": [
+            {
+              "selector": "c",
+              "text": "CLOSE_DAILY_1",
+              "type": "number"
+            },
+            {
+              "selector": "t",
+              "text": "ts",
+              "type": "timestamp_epoch"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": true,
+          "parser": "backend",
+          "refId": "CLOSE_WATCHLIST",
+          "root_selector": "results",
+          "source": "url",
+          "summarizeExpression": "",
+          "type": "json",
+          "url": "https://api.polygon.io/v2/aggs/ticker/${watchlist}/range/1/day/${__from}/${__to}?adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        },
+        {
+          "columns": [
+            {
+              "selector": "c",
+              "text": "CLOSE_DAILY_2",
+              "type": "number"
+            },
+            {
+              "selector": "t",
+              "text": "ts",
+              "type": "timestamp_epoch"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": true,
+          "parser": "backend",
+          "refId": "CLOSE_QQQ",
+          "root_selector": "results",
+          "source": "url",
+          "summarizeExpression": "",
+          "type": "json",
+          "url": "https://api.polygon.io/v2/aggs/ticker/QQQ/range/1/day/${__from}/${__to}?adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        },
+        {
+          "columns": [
+            {
+              "selector": "c",
+              "text": "CLOSE_DAILY_3",
+              "type": "number"
+            },
+            {
+              "selector": "t",
+              "text": "ts",
+              "type": "timestamp_epoch"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": true,
+          "parser": "backend",
+          "refId": "CLOSE_SPY",
+          "root_selector": "results",
+          "source": "url",
+          "summarizeExpression": "",
+          "type": "json",
+          "url": "https://api.polygon.io/v2/aggs/ticker/SPY/range/1/day/${__from}/${__to}?adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        },
+        {
+          "columns": [
+            {
+              "selector": "c",
+              "text": "CLOSE_DAILY_3",
+              "type": "number"
+            },
+            {
+              "selector": "t",
+              "text": "ts",
+              "type": "timestamp_epoch"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": true,
+          "parser": "backend",
+          "refId": "CLOSE_DIA",
+          "root_selector": "results",
+          "source": "url",
+          "summarizeExpression": "",
+          "type": "json",
+          "url": "https://api.polygon.io/v2/aggs/ticker/DIA/range/1/day/${__from}/${__to}?adjusted=true&sort=asc&limit=50000",
+          "url_options": {
+            "data": "",
+            "method": "GET",
+            "params": []
+          }
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "($CLOSE_WATCHLIST / $START_WATCHLIST) - 1",
+          "hide": false,
+          "refId": "PERCENT_CHANGE_WATCHLIST",
+          "type": "math"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "($CLOSE_SPY / $START_SPY) - 1",
+          "hide": false,
+          "refId": "PERCENT_CHANGE_SPY",
+          "type": "math"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "($CLOSE_QQQ / $START_QQQ) - 1",
+          "hide": false,
+          "refId": "PERCENT_CHANGE_QQQ",
+          "type": "math"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "($CLOSE_DIA / $START_DIA) - 1",
+          "hide": false,
+          "refId": "PERCENT_CHANGE_DIA",
+          "type": "math"
+        }
+      ],
+      "title": "Percent Change",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 30
+              },
+              {
+                "color": "#EAB839",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 70
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 3,
+        "x": 16,
+        "y": 6
+      },
+      "id": 14,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "timestamp",
+              "text": "timestamp",
+              "type": "timestamp_epoch"
+            },
+            {
+              "selector": "value",
+              "text": "rsi",
+              "type": "number"
+            }
+          ],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "results.values",
+          "source": "url",
+          "type": "json",
+          "url": "https://api.polygon.io/v1/indicators/rsi/$watchlist?limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&timespan=day&adjusted=true&window=14&series_type=close&order=desc",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "RSI",
+      "type": "timeseries"
+    }
+  ],
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [
+    "finance"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "4w-Y0YT4z"
+        },
+        "definition": "select ticker from watchlist where kind = 'STOCK';",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Stock Watchlist",
+        "multi": true,
+        "name": "watchlist",
+        "options": [],
+        "query": "select ticker from watchlist where kind = 'STOCK';",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-90d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Watch List - Stocks",
+  "uid": "zskhYAa2Vk",
+  "version": 29,
+  "weekStart": ""
+}

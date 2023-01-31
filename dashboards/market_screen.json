@@ -1,35 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_POSTGRESQL",
-      "label": "PostgreSQL",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "postgres",
-      "pluginName": "PostgreSQL"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "9.3.2"
-    },
-    {
-      "type": "datasource",
-      "id": "postgres",
-      "name": "PostgreSQL",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "table",
-      "name": "Table",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -55,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 7,
   "links": [
     {
       "asDropdown": false,
@@ -75,9 +44,132 @@
   "liveNow": false,
   "panels": [
     {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 9,
+      "panels": [],
+      "title": "Watch List",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 0,
+        "y": 1
+      },
+      "id": 7,
+      "options": {
+        "buttonGroup": {
+          "orientation": "left",
+          "size": "sm"
+        },
+        "elements": [
+          {
+            "id": "ticker",
+            "labelWidth": 10,
+            "section": "",
+            "title": "Ticker",
+            "tooltip": "",
+            "type": "string",
+            "value": "ZIMA3",
+            "width": 10
+          },
+          {
+            "id": "kind",
+            "labelWidth": 10,
+            "options": [
+              {
+                "label": "STOCK",
+                "value": "STOCK"
+              },
+              {
+                "label": "ETF",
+                "value": "ETF"
+              }
+            ],
+            "section": "",
+            "title": "Kind",
+            "tooltip": "",
+            "type": "radio",
+            "unit": "",
+            "value": "STOCK",
+            "width": 10
+          },
+          {
+            "id": "operation",
+            "labelWidth": 10,
+            "options": [
+              {
+                "label": "ADD",
+                "value": "add"
+              },
+              {
+                "label": "DELETE",
+                "value": "delete"
+              }
+            ],
+            "section": "",
+            "title": "Operation",
+            "tooltip": "",
+            "type": "radio",
+            "value": "delete",
+            "width": 10
+          }
+        ],
+        "initial": {
+          "code": "console.log(data, response, initial, elements)",
+          "contentType": "application/json",
+          "header": [],
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "-",
+          "url": "http://localhost:5000/"
+        },
+        "layout": {
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "apps",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "update": {
+          "code": "if (response && response.ok) {\n  response.json().then((resp) => {\n    notifySuccess([\"Update\", resp[\"result\"]]);\n    initialRequest();\n  });\n} else {\n  response.json().then((resp) => {\n    notifyError([\"Error\", resp[\"result\"]]);\n    initialRequest();\n  });\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "header": [],
+          "method": "POST",
+          "updatedOnly": false,
+          "url": "http://localhost:5000/watchlist"
+        }
+      },
+      "title": "Watch List",
+      "type": "volkovlabs-form-panel"
+    },
+    {
       "datasource": {
         "type": "postgres",
-        "uid": "${DS_POSTGRESQL}"
+        "uid": "4w-Y0YT4z"
       },
       "fieldConfig": {
         "defaults": {
@@ -189,17 +281,17 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 200
+                "value": 180
               }
             ]
           }
         ]
       },
       "gridPos": {
-        "h": 21,
+        "h": 19,
         "w": 8,
-        "x": 0,
-        "y": 0
+        "x": 3,
+        "y": 1
       },
       "id": 3,
       "options": {
@@ -224,7 +316,7 @@
           "columns": [],
           "datasource": {
             "type": "postgres",
-            "uid": "${DS_POSTGRESQL}"
+            "uid": "4w-Y0YT4z"
           },
           "editorMode": "code",
           "filters": [],
@@ -266,7 +358,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "${DS_POSTGRESQL}"
+        "uid": "4w-Y0YT4z"
       },
       "fieldConfig": {
         "defaults": {
@@ -299,7 +391,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 20
+                "value": 62
               },
               {
                 "id": "thresholds",
@@ -386,7 +478,7 @@
                 "value": [
                   {
                     "title": "Triple Screen",
-                    "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker=${__data.fields.ticker}"
+                    "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker=${__data.fields.ticker}&from=now-180d&to=now"
                   }
                 ]
               }
@@ -412,7 +504,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 110
+                "value": 80
               }
             ]
           },
@@ -424,7 +516,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 300
+                "value": 200
               }
             ]
           },
@@ -436,7 +528,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 200
+                "value": 180
               }
             ]
           },
@@ -448,17 +540,29 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 306
+                "value": 250
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "pe"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 20
               }
             ]
           }
         ]
       },
       "gridPos": {
-        "h": 21,
-        "w": 16,
-        "x": 8,
-        "y": 0
+        "h": 19,
+        "w": 13,
+        "x": 11,
+        "y": 1
       },
       "id": 5,
       "options": {
@@ -483,7 +587,7 @@
           "columns": [],
           "datasource": {
             "type": "postgres",
-            "uid": "${DS_POSTGRESQL}"
+            "uid": "4w-Y0YT4z"
           },
           "editorMode": "code",
           "filters": [],
@@ -491,7 +595,7 @@
           "global_query_id": "",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "select rsi_rating as \"RSI\", sma_rating as \"SMA\", ticker, name, sector, industry, beta, dividend_yield\nfrom stocks\nwhere rsi_rating < (\n  select percentile_cont($rsi_percentile / 100.00) within group (order by rsi_rating) from stocks\n)\nAND sma_rating <= $sma_rating_f AND industry IN ($industry) AND sector IN ($sector)\norder by sma_rating asc; ",
+          "rawSql": "select rsi_rating as \"RSI\", sma_rating as \"SMA\", ticker, name, sector, industry, beta, dividend_yield, pe\nfrom stocks\nwhere rsi_rating < (\n  select percentile_cont($rsi_percentile / 100.00) within group (order by rsi_rating) from stocks\n)\nAND sma_rating <= $sma_rating_f AND industry IN ($industry) AND sector IN ($sector)\norder by sma_rating asc; ",
           "refId": "A",
           "root_selector": "",
           "source": "url",
@@ -522,8 +626,90 @@
       ],
       "title": "Ticker Screener",
       "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "4w-Y0YT4z"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 13,
+        "w": 3,
+        "x": 0,
+        "y": 7
+      },
+      "id": 13,
+      "options": {
+        "content": "<div class=\"row\">\n  <div class=\"col-md-8\" markdown=\"1\">\n    <h3>Stocks</h3>\n    {{#each data}}\n    {{#if (eq kind \"STOCK\")}}\n    <div>\n      <u>\n      <a\n        href=\"http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker={{ticker}}&from=now-180d&to=now\" style=\"u\">{{ticker}}</a>\n      </u>\n    </div>\n    {{/if}}\n    {{/each}}\n  </div>\n  <div class=\"col-md-4\" markdown=\"1\">\n    <h3>ETFs</h3>\n    {{#each data}}\n    {{#if (eq kind \"ETF\")}}\n    <div>\n      <u>\n        <a href=\"http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker={{ticker}}&from=now-180d&to=now\"\n          style=\"u\">{{ticker}}</a>\n      </u>\n    </div>\n    {{/if}}\n    {{/each}}\n  </div>\n</div>",
+        "defaultContent": "The query didn't return any results.",
+        "editor": {
+          "format": "auto",
+          "height": 200,
+          "language": "html"
+        },
+        "everyRow": false,
+        "helpers": ""
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "postgres",
+            "uid": "4w-Y0YT4z"
+          },
+          "editorMode": "builder",
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "rawSql": "SELECT * FROM watchlist LIMIT 50 ",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "*",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [],
+              "id": "aba989a8-89ab-4cde-b012-318605108075",
+              "properties": {
+                "conjunction": "AND"
+              },
+              "type": "group"
+            }
+          },
+          "table": "watchlist",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "type": "marcusolsson-dynamictext-panel"
     }
   ],
+  "refresh": "5s",
   "schemaVersion": 37,
   "style": "dark",
   "tags": [
@@ -532,10 +718,18 @@
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": {
           "type": "postgres",
-          "uid": "${DS_POSTGRESQL}"
+          "uid": "4w-Y0YT4z"
         },
         "definition": "select distinct(sector) from stocks;",
         "hide": 0,
@@ -552,10 +746,18 @@
         "type": "query"
       },
       {
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": {
           "type": "postgres",
-          "uid": "${DS_POSTGRESQL}"
+          "uid": "4w-Y0YT4z"
         },
         "definition": "select distinct(industry) from stocks;",
         "hide": 0,
@@ -595,8 +797,8 @@
       {
         "current": {
           "selected": true,
-          "text": "5",
-          "value": "5"
+          "text": "1",
+          "value": "1"
         },
         "hide": 0,
         "includeAll": false,
@@ -605,7 +807,7 @@
         "name": "sma_rating_f",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "1",
             "value": "1"
           },
@@ -625,7 +827,7 @@
             "value": "4"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "5",
             "value": "5"
           }
@@ -645,6 +847,6 @@
   "timezone": "",
   "title": "Market Screen",
   "uid": "ooEr-YoVz",
-  "version": 57,
+  "version": 83,
   "weekStart": ""
 }

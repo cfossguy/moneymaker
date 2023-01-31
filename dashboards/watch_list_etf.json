@@ -1,65 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_INFINITY",
-      "label": "Infinity",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "yesoreyeram-infinity-datasource",
-      "pluginName": "Infinity"
-    },
-    {
-      "name": "DS_EXPRESSION",
-      "label": "Expression",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "__expr__"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "datasource",
-      "id": "__expr__",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "alertlist",
-      "name": "Alert list",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "candlestick",
-      "name": "Candlestick",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "9.3.2"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "yesoreyeram-infinity-datasource",
-      "name": "Infinity",
-      "version": "1.3.0"
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -85,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 8,
   "links": [
     {
       "asDropdown": false,
@@ -109,21 +48,9 @@
       "tags": [],
       "targetBlank": true,
       "title": "Price Alerts",
-      "tooltip": "Go to Finance Alerts",
+      "tooltip": "",
       "type": "link",
-      "url": "https://sejwilliams.grafana.net/d/-yieYE2Vk/watch-list-etf?orgId=1&editPanel=154&tab=alert"
-    },
-    {
-      "asDropdown": false,
-      "icon": "dashboard",
-      "includeVars": false,
-      "keepTime": false,
-      "tags": [],
-      "targetBlank": true,
-      "title": "RSI Alerts",
-      "tooltip": "Go to Finance Alerts",
-      "type": "link",
-      "url": "https://sejwilliams.grafana.net/d/-yieYE2Vk/watch-list-etf?orgId=1&editPanel=256&tab=alert"
+      "url": "https://sejwilliams.grafana.net/d/skhYAa2Vk/watch-list-stocks?orgId=1&editPanel=6&tab=alert"
     },
     {
       "asDropdown": false,
@@ -132,7 +59,19 @@
       "keepTime": false,
       "tags": [],
       "targetBlank": true,
-      "title": "REST API Docs - Polygon.io ",
+      "title": "RSI Alerts",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://sejwilliams.grafana.net/d/skhYAa2Vk/watch-list-stocks?orgId=1&editPanel=14&tab=alert"
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "REST API Docs - Polygon.io",
       "tooltip": "",
       "type": "link",
       "url": "https://polygon.io/docs/stocks/getting-started"
@@ -141,18 +80,130 @@
   "liveNow": false,
   "panels": [
     {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "description": "",
       "gridPos": {
         "h": 5,
-        "w": 6,
+        "w": 4,
         "x": 0,
+        "y": 0
+      },
+      "id": 158,
+      "options": {
+        "buttonGroup": {
+          "orientation": "left",
+          "size": "sm"
+        },
+        "elements": [
+          {
+            "id": "ticker",
+            "labelWidth": 10,
+            "section": "",
+            "title": "Ticker",
+            "tooltip": "",
+            "type": "string",
+            "value": "TLT",
+            "width": 10
+          },
+          {
+            "id": "kind",
+            "labelWidth": 10,
+            "options": [
+              {
+                "label": "STOCK",
+                "value": "STOCK"
+              },
+              {
+                "label": "ETF",
+                "value": "ETF"
+              }
+            ],
+            "section": "",
+            "title": "Kind",
+            "tooltip": "",
+            "type": "radio",
+            "unit": "",
+            "value": "ETF",
+            "width": 10
+          },
+          {
+            "id": "operation",
+            "labelWidth": 10,
+            "options": [
+              {
+                "label": "ADD",
+                "value": "add"
+              },
+              {
+                "label": "DELETE",
+                "value": "delete"
+              }
+            ],
+            "section": "",
+            "title": "Operation",
+            "tooltip": "",
+            "type": "radio",
+            "value": "delete",
+            "width": 10
+          }
+        ],
+        "initial": {
+          "code": "console.log(data, response, initial, elements)",
+          "contentType": "application/json",
+          "header": [],
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "-",
+          "url": "http://localhost:5000/"
+        },
+        "layout": {
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "apps",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "update": {
+          "code": "if (response && response.ok) {\n  response.json().then((resp) => {\n    notifySuccess([\"Update\", resp[\"result\"]]);\n    initialRequest();\n  });\n} else {\n  response.json().then((resp) => {\n    notifyError([\"Error\", resp[\"result\"]]);\n    initialRequest();\n  });\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "header": [],
+          "method": "POST",
+          "updatedOnly": false,
+          "url": "http://localhost:5000/watchlist"
+        }
+      },
+      "title": "Watch List",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "grafana-mongodb-datasource"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
         "y": 0
       },
       "id": 55,
       "options": {
         "alertInstanceLabelFilter": "",
-        "alertName": "BUY ETF",
+        "alertName": "BUY STOCK",
         "dashboardAlerts": false,
-        "datasource": "-- Grafana --",
         "folder": {
           "id": 257,
           "title": "Finance"
@@ -166,7 +217,7 @@
           "firing": true,
           "noData": false,
           "normal": false,
-          "pending": false
+          "pending": true
         },
         "viewMode": "list"
       },
@@ -174,18 +225,20 @@
       "type": "alertlist"
     },
     {
+      "datasource": {
+        "type": "grafana-mongodb-datasource"
+      },
       "gridPos": {
         "h": 5,
-        "w": 6,
-        "x": 6,
+        "w": 4,
+        "x": 8,
         "y": 0
       },
       "id": 71,
       "options": {
         "alertInstanceLabelFilter": "",
-        "alertName": "SELL ETF",
+        "alertName": "SELL STOCK",
         "dashboardAlerts": false,
-        "datasource": "-- Grafana --",
         "folder": {
           "id": 257,
           "title": "Finance"
@@ -199,7 +252,7 @@
           "firing": true,
           "noData": false,
           "normal": false,
-          "pending": false
+          "pending": true
         },
         "viewMode": "list"
       },
@@ -207,18 +260,20 @@
       "type": "alertlist"
     },
     {
+      "datasource": {
+        "type": "grafana-mongodb-datasource"
+      },
       "gridPos": {
         "h": 5,
         "w": 7,
         "x": 12,
         "y": 0
       },
-      "id": 394,
+      "id": 126,
       "options": {
         "alertInstanceLabelFilter": "",
         "alertName": "",
         "dashboardAlerts": false,
-        "datasource": "-- Grafana --",
         "folder": {
           "id": 257,
           "title": "Finance"
@@ -247,18 +302,15 @@
         "x": 0,
         "y": 5
       },
-      "id": 109,
+      "id": 2,
       "panels": [],
-      "repeat": "indexlist",
+      "repeat": "watchlist",
       "repeatDirection": "h",
-      "title": "ETF - ${indexlist}",
+      "title": "Stock - ${watchlist}",
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
+      "datasource": {},
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -357,12 +409,12 @@
         "x": 0,
         "y": 6
       },
-      "id": 131,
+      "id": 87,
       "links": [
         {
           "targetBlank": false,
           "title": "Triple Screen",
-          "url": "https://sejwilliams.grafana.net/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker=${indexlist}"
+          "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1var-ticker=${watchlist}&refresh=1m&from=now-6M&to=now"
         }
       ],
       "options": {
@@ -420,8 +472,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -431,7 +482,7 @@
           "root_selector": "results",
           "source": "url",
           "type": "json",
-          "url": "https://api.polygon.io/v2/aggs/ticker/${indexlist}/range/1/week/${__from}/${__to}?adjusted=true&sort=asc&limit=50000",
+          "url": "https://api.polygon.io/v2/aggs/ticker/${watchlist}/range/1/week/${__from}/${__to}?adjusted=true&sort=asc&limit=50000",
           "url_options": {
             "data": "",
             "method": "GET",
@@ -452,8 +503,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -464,7 +514,7 @@
           "root_selector": "results.values",
           "source": "url",
           "type": "json",
-          "url": "https://api.polygon.io/v1/indicators/sma/${indexlist}/?timespan=week&window=10&limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&adjusted=true&sort=asc&limit=50000",
+          "url": "https://api.polygon.io/v1/indicators/sma/${watchlist}/?timespan=week&window=10&limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&adjusted=true&sort=asc&limit=50000",
           "url_options": {
             "data": "",
             "method": "GET",
@@ -485,8 +535,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -497,7 +546,7 @@
           "root_selector": "results.values",
           "source": "url",
           "type": "json",
-          "url": "https://api.polygon.io/v1/indicators/sma/${indexlist}/?timespan=week&window=20&limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&adjusted=true&sort=asc&limit=50000",
+          "url": "https://api.polygon.io/v1/indicators/sma/${watchlist}/?timespan=week&window=20&limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&adjusted=true&sort=asc&limit=50000",
           "url_options": {
             "data": "",
             "method": "GET",
@@ -515,10 +564,7 @@
       "type": "candlestick"
     },
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
+      "datasource": {},
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -656,7 +702,7 @@
         "x": 6,
         "y": 6
       },
-      "id": 154,
+      "id": 6,
       "options": {
         "legend": {
           "calcs": [],
@@ -685,8 +731,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -697,7 +742,7 @@
           "root_selector": "results",
           "source": "url",
           "type": "json",
-          "url": "https://api.polygon.io/v2/aggs/ticker/${indexlist}/range/1/day/${__from}/${__to}?adjusted=true&sort=asc&limit=50000",
+          "url": "https://api.polygon.io/v2/aggs/ticker/${watchlist}/range/1/day/${__from}/${__to}?adjusted=true&sort=asc&limit=50000",
           "url_options": {
             "data": "",
             "method": "GET",
@@ -718,8 +763,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -730,7 +774,7 @@
           "root_selector": "results.values",
           "source": "url",
           "type": "json",
-          "url": "https://api.polygon.io/v1/indicators/sma/${indexlist}/?timespan=day&window=50&limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&adjusted=true&sort=asc&limit=50000",
+          "url": "https://api.polygon.io/v1/indicators/sma/${watchlist}/?timespan=day&window=50&limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&adjusted=true&sort=asc&limit=50000",
           "url_options": {
             "data": "",
             "method": "GET",
@@ -751,8 +795,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -763,7 +806,7 @@
           "root_selector": "results.values",
           "source": "url",
           "type": "json",
-          "url": "https://api.polygon.io/v1/indicators/sma/${indexlist}/?timespan=day&window=100&limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&adjusted=true&sort=asc&limit=50000",
+          "url": "https://api.polygon.io/v1/indicators/sma/${watchlist}/?timespan=day&window=100&limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&adjusted=true&sort=asc&limit=50000",
           "url_options": {
             "data": "",
             "method": "GET",
@@ -781,10 +824,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
+      "datasource": {},
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -847,7 +887,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "${indexlist}"
+                "value": "${watchlist}"
               },
               {
                 "id": "color",
@@ -926,7 +966,7 @@
         "x": 12,
         "y": 6
       },
-      "id": 179,
+      "id": 89,
       "options": {
         "legend": {
           "calcs": [
@@ -953,8 +993,7 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -966,7 +1005,7 @@
           "source": "url",
           "summarizeExpression": "",
           "type": "json",
-          "url": "https://api.polygon.io/v2/aggs/ticker/${indexlist}/range/1/week/${__from}/${__from}?adjusted=true&sort=asc&limit=50000",
+          "url": "https://api.polygon.io/v2/aggs/ticker/${watchlist}/range/1/week/${__from}/${__from}?adjusted=true&sort=asc&limit=50000",
           "url_options": {
             "data": "",
             "method": "GET",
@@ -983,8 +1022,7 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1013,8 +1051,7 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1043,8 +1080,7 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1078,8 +1114,7 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1091,7 +1126,7 @@
           "source": "url",
           "summarizeExpression": "",
           "type": "json",
-          "url": "https://api.polygon.io/v2/aggs/ticker/${indexlist}/range/1/day/${__from}/${__to}?adjusted=true&sort=asc&limit=50000",
+          "url": "https://api.polygon.io/v2/aggs/ticker/${watchlist}/range/1/day/${__from}/${__to}?adjusted=true&sort=asc&limit=50000",
           "url_options": {
             "data": "",
             "method": "GET",
@@ -1113,8 +1148,7 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1148,8 +1182,7 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1183,8 +1216,7 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1205,8 +1237,9 @@
         },
         {
           "datasource": {
+            "name": "Expression",
             "type": "__expr__",
-            "uid": "${DS_EXPRESSION}"
+            "uid": "__expr__"
           },
           "expression": "($CLOSE_WATCHLIST / $START_WATCHLIST) - 1",
           "hide": false,
@@ -1215,8 +1248,9 @@
         },
         {
           "datasource": {
+            "name": "Expression",
             "type": "__expr__",
-            "uid": "${DS_EXPRESSION}"
+            "uid": "__expr__"
           },
           "expression": "($CLOSE_SPY / $START_SPY) - 1",
           "hide": false,
@@ -1225,8 +1259,9 @@
         },
         {
           "datasource": {
+            "name": "Expression",
             "type": "__expr__",
-            "uid": "${DS_EXPRESSION}"
+            "uid": "__expr__"
           },
           "expression": "($CLOSE_QQQ / $START_QQQ) - 1",
           "hide": false,
@@ -1235,8 +1270,9 @@
         },
         {
           "datasource": {
+            "name": "Expression",
             "type": "__expr__",
-            "uid": "${DS_EXPRESSION}"
+            "uid": "__expr__"
           },
           "expression": "($CLOSE_DIA / $START_DIA) - 1",
           "hide": false,
@@ -1249,103 +1285,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "green",
-                "value": 30
-              },
-              {
-                "color": "#EAB839",
-                "value": 50
-              },
-              {
-                "color": "red",
-                "value": 70
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 16,
-        "y": 6
-      },
-      "id": 296,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.3.2",
-      "targets": [
-        {
-          "columns": [
-            {
-              "selector": "timestamp",
-              "text": "timestamp",
-              "type": "timestamp_epoch"
-            },
-            {
-              "selector": "value",
-              "text": "rsi",
-              "type": "number"
-            }
-          ],
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
-          },
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "results.values",
-          "source": "url",
-          "type": "json",
-          "url": "https://api.polygon.io/v1/indicators/rsi/$indexlist?limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&timespan=day&adjusted=true&window=14&series_type=close&order=asc",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        }
-      ],
-      "title": "RSI",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "${DS_INFINITY}"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1407,12 +1347,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 3,
         "x": 16,
-        "y": 10
+        "y": 6
       },
-      "id": 256,
+      "id": 14,
       "options": {
         "legend": {
           "calcs": [],
@@ -1440,8 +1380,7 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "${DS_INFINITY}"
+            "type": "yesoreyeram-infinity-datasource"
           },
           "filters": [],
           "format": "table",
@@ -1451,7 +1390,7 @@
           "root_selector": "results.values",
           "source": "url",
           "type": "json",
-          "url": "https://api.polygon.io/v1/indicators/rsi/$indexlist?limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&timespan=day&adjusted=true&window=14&series_type=close&order=desc",
+          "url": "https://api.polygon.io/v1/indicators/rsi/$watchlist?limit=5000&timestamp.lte=$__to&timestamp.gte=$__from&timespan=day&adjusted=true&window=14&series_type=close&order=desc",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1479,77 +1418,23 @@
             "$__all"
           ]
         },
+        "datasource": {
+          "type": "postgres",
+          "uid": "4w-Y0YT4z"
+        },
+        "definition": "select ticker from watchlist where kind = 'ETF';",
         "hide": 0,
         "includeAll": true,
-        "label": "ETF List",
+        "label": "Stock Watchlist",
         "multi": true,
-        "name": "indexlist",
-        "options": [
-          {
-            "selected": true,
-            "text": "All",
-            "value": "$__all"
-          },
-          {
-            "selected": false,
-            "text": "QQQ",
-            "value": "QQQ"
-          },
-          {
-            "selected": false,
-            "text": "SPY",
-            "value": "SPY"
-          },
-          {
-            "selected": false,
-            "text": "DIA",
-            "value": "DIA"
-          },
-          {
-            "selected": false,
-            "text": "TLT",
-            "value": "TLT"
-          },
-          {
-            "selected": false,
-            "text": "SPYG",
-            "value": "SPYG"
-          },
-          {
-            "selected": false,
-            "text": "IWD",
-            "value": "IWD"
-          },
-          {
-            "selected": false,
-            "text": "VTV",
-            "value": "VTV"
-          },
-          {
-            "selected": false,
-            "text": "IVLU",
-            "value": "IVLU"
-          },
-          {
-            "selected": false,
-            "text": "SPEM",
-            "value": "SPEM"
-          },
-          {
-            "selected": false,
-            "text": "VWO",
-            "value": "VWO"
-          },
-          {
-            "selected": false,
-            "text": "PXH",
-            "value": "PXH"
-          }
-        ],
-        "query": "QQQ, SPY, DIA, TLT, SPYG, IWD, VTV, IVLU, SPEM, VWO, PXH",
-        "queryValue": "",
+        "name": "watchlist",
+        "options": [],
+        "query": "select ticker from watchlist where kind = 'ETF';",
+        "refresh": 1,
+        "regex": "",
         "skipUrlSync": false,
-        "type": "custom"
+        "sort": 0,
+        "type": "query"
       }
     ]
   },
@@ -1559,8 +1444,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Watch List  - ETF",
-  "uid": "-yieYE2Vk",
-  "version": 2,
+  "title": "Watch List - ETF",
+  "uid": "JYGq5nA4k",
+  "version": 3,
   "weekStart": ""
 }
