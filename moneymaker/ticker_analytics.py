@@ -49,12 +49,14 @@ def stock_universe_xls_import():
 def watchlist_xls_import():
     watchlist_frame = pd.read_excel('stock_universe.xlsx', sheet_name="WATCHLIST")
     db = create_engine(conn_string)
-
+    result = ""
     with db.begin() as conn:
         watchlist_frame.to_sql('watchlist', con=conn, if_exists='replace', index=False)
     with db.begin() as conn:
         db.execute(text("ALTER TABLE watchlist ADD CONSTRAINT constraint_ticker UNIQUE (ticker);"))
-    logging.info("watchlist records loaded from excel to DB")
+    result = "watchlist records loaded from excel to DB"
+    logging.info(f"{result}")
+    return result
 
 def get_rsi_rating(ticker):
     # get week or day or hour rsi for each stock from poloygon.io

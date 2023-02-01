@@ -1,18 +1,16 @@
 from flask import request, jsonify, Flask
+from sqlalchemy.exc import IntegrityError
+import functools
 from flask_cors import CORS
-from prometheus_flask_exporter import PrometheusMetrics
-import logging
 from logfmter import Logfmter
 from dotenv import load_dotenv
 import os
-from sqlalchemy.exc import IntegrityError
-import ticker as tick
-import functools
-from app import app
-
-#app = Flask(__name__)
-CORS(app)
-
+import logging
+from prometheus_flask_exporter import PrometheusMetrics
+from moneymaker import app, ticker_analytics
+from multiprocessing import Process
+import time
+app = Flask(__name__)
 formatter = Logfmter(keys=["ts", "level"],mapping={"ts": "asctime", "level": "levelname"})
 
 handler_stream = logging.StreamHandler()
@@ -23,6 +21,7 @@ metrics = PrometheusMetrics(app)
 
 load_dotenv()
 ticker_api_key = os.getenv('ticker_api_key')
+CORS(app)
 
 def token_required(func):
     @functools.wraps(func)
@@ -39,6 +38,17 @@ def index():
     logging.info("root url hit")
     return 'Web App with Python Flask!'
 
+@app.route("/universe-import")
+def universe_import():
+    data = {}
+    heavy_process = Process(
+        target=ticker_analytics.stock_universe_xls_import,
+        daemon=True
+    )
+    heavy_process.start()
+    data['result'] = "universe import running in background"
+    return jsonify(data), 200
+
 @app.route('/watchlist', methods=['POST'])
 #@token_required
 def watchlist():
@@ -46,16 +56,22 @@ def watchlist():
     try:
         query = request.json
         logging.info(f"query is: {query}")
-        ticker = query['ticker']
-        kind = query['kind']
         operation = query['operation']
-        logging.info(f"ticker={ticker}, kind={kind}")
+
         if operation == "add":
-            data['result'] = tick.add_ticker_to_watchlist(ticker=ticker, kind=kind)
+            ticker = query['ticker']
+            kind = query['kind']
+            data['result'] = ticker_analytics.add_ticker_to_watchlist(ticker=ticker, kind=kind)
             data['status'] = "OK"
             return jsonify(data), 200
-        if operation == "delete":
-            data['result'] = tick.delete_ticker_from_watchlist(ticker=ticker, kind=kind)
+        elif operation == "delete":
+            ticker = query['ticker']
+            kind = query['kind']
+            data['result'] = ticker_analytics.delete_ticker_from_watchlist(ticker=ticker, kind=kind)
+            data['status'] = "OK"
+            return jsonify(data), 200
+        elif operation == "import":
+            data['result'] = ticker_analytics.watchlist_xls_import()
             data['status'] = "OK"
             return jsonify(data), 200
         else:
