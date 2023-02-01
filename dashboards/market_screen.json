@@ -82,7 +82,7 @@
             "title": "Ticker",
             "tooltip": "",
             "type": "string",
-            "value": "ZIMA3",
+            "value": "WBD",
             "width": 10
           },
           {
@@ -123,7 +123,7 @@
             "title": "Operation",
             "tooltip": "",
             "type": "radio",
-            "value": "delete",
+            "value": "add",
             "width": 10
           }
         ],
@@ -577,7 +577,7 @@
         "sortBy": [
           {
             "desc": true,
-            "displayName": "dividend_yield"
+            "displayName": "ticker"
           }
         ]
       },
@@ -634,7 +634,7 @@
       },
       "description": "",
       "gridPos": {
-        "h": 13,
+        "h": 18,
         "w": 3,
         "x": 0,
         "y": 7
@@ -707,6 +707,80 @@
         }
       ],
       "type": "marcusolsson-dynamictext-panel"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 5,
+        "w": 21,
+        "x": 3,
+        "y": 20
+      },
+      "id": 14,
+      "options": {
+        "buttonGroup": {
+          "orientation": "left",
+          "size": "sm"
+        },
+        "elements": [
+          {
+            "id": "operation",
+            "labelWidth": 10,
+            "options": [
+              {
+                "label": "import stock universe and run analytics",
+                "value": "import"
+              }
+            ],
+            "section": "",
+            "title": "Operation",
+            "tooltip": "",
+            "type": "select",
+            "value": "import"
+          }
+        ],
+        "initial": {
+          "code": "console.log(data, response, initial, elements)",
+          "contentType": "application/json",
+          "header": [],
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "-",
+          "url": "http://localhost:5000/universe-import"
+        },
+        "layout": {
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "apps",
+          "text": "Submit",
+          "variant": "primary"
+        },
+        "update": {
+          "code": "if (response && response.ok) {\n  response.json().then((resp) => {\n    notifySuccess([\"Update\", resp[\"result\"]]);\n    initialRequest();\n  });\n} else {\n  response.json().then((resp) => {\n    notifyError([\"Error\", resp[\"result\"]]);\n    initialRequest();\n  });\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "header": [],
+          "method": "POST",
+          "updatedOnly": false,
+          "url": "http://localhost:5000/universe-import"
+        }
+      },
+      "title": "Analytics",
+      "type": "volkovlabs-form-panel"
     }
   ],
   "refresh": "5s",
@@ -719,7 +793,7 @@
     "list": [
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": [
             "All"
           ],
@@ -747,12 +821,12 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": [
-            "All"
+            "Beverages"
           ],
           "value": [
-            "$__all"
+            "Beverages"
           ]
         },
         "datasource": {
@@ -776,8 +850,8 @@
       {
         "current": {
           "selected": false,
-          "text": "5",
-          "value": "5"
+          "text": "99",
+          "value": "99"
         },
         "description": "Should be a value from 1 to 99. ",
         "hide": 0,
@@ -785,20 +859,20 @@
         "name": "rsi_percentile",
         "options": [
           {
-            "selected": true,
+            "selected": false,
             "text": "5",
             "value": "5"
           }
         ],
-        "query": "5",
+        "query": "99",
         "skipUrlSync": false,
         "type": "textbox"
       },
       {
         "current": {
-          "selected": true,
-          "text": "1",
-          "value": "1"
+          "selected": false,
+          "text": "5",
+          "value": "5"
         },
         "hide": 0,
         "includeAll": false,
@@ -807,7 +881,7 @@
         "name": "sma_rating_f",
         "options": [
           {
-            "selected": true,
+            "selected": false,
             "text": "1",
             "value": "1"
           },
@@ -827,7 +901,7 @@
             "value": "4"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "5",
             "value": "5"
           }
@@ -847,6 +921,6 @@
   "timezone": "",
   "title": "Market Screen",
   "uid": "ooEr-YoVz",
-  "version": 83,
+  "version": 88,
   "weekStart": ""
 }

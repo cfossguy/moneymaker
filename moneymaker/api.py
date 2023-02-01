@@ -38,7 +38,7 @@ def index():
     logging.info("root url hit")
     return 'Web App with Python Flask!'
 
-@app.route("/universe-import")
+@app.route("/universe-import", methods=['POST'])
 def universe_import():
     data = {}
     heavy_process = Process(
