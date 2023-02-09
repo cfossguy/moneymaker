@@ -9,7 +9,7 @@ import logging
 from prometheus_flask_exporter import PrometheusMetrics
 from moneymaker import app, ticker_analytics
 from multiprocessing import Process
-import time
+
 app = Flask(__name__)
 formatter = Logfmter(keys=["ts", "level"],mapping={"ts": "asctime", "level": "levelname"})
 

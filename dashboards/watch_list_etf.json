@@ -1,4 +1,79 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_INFINITY",
+      "label": "Infinity",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "yesoreyeram-infinity-datasource",
+      "pluginName": "Infinity"
+    },
+    {
+      "name": "DS_EXPRESSION",
+      "label": "Expression",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "__expr__"
+    },
+    {
+      "name": "DS_POSTGRESQL",
+      "label": "PostgreSQL",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "postgres",
+      "pluginName": "PostgreSQL"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "datasource",
+      "id": "__expr__",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "alertlist",
+      "name": "Alert list",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "candlestick",
+      "name": "Candlestick",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.3.2"
+    },
+    {
+      "type": "datasource",
+      "id": "postgres",
+      "name": "PostgreSQL",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "volkovlabs-form-panel",
+      "name": "Data Manipulation",
+      "version": "2.7.0"
+    },
+    {
+      "type": "datasource",
+      "id": "yesoreyeram-infinity-datasource",
+      "name": "Infinity",
+      "version": "1.3.0"
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -24,7 +99,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 8,
+  "id": null,
   "links": [
     {
       "asDropdown": false,
@@ -191,7 +266,8 @@
     },
     {
       "datasource": {
-        "type": "grafana-mongodb-datasource"
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
       },
       "gridPos": {
         "h": 5,
@@ -226,7 +302,8 @@
     },
     {
       "datasource": {
-        "type": "grafana-mongodb-datasource"
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
       },
       "gridPos": {
         "h": 5,
@@ -261,7 +338,8 @@
     },
     {
       "datasource": {
-        "type": "grafana-mongodb-datasource"
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
       },
       "gridPos": {
         "h": 5,
@@ -310,7 +388,10 @@
       "type": "row"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -414,7 +495,7 @@
         {
           "targetBlank": false,
           "title": "Triple Screen",
-          "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1var-ticker=${watchlist}&refresh=1m&from=now-6M&to=now"
+          "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&var-ticker=${watchlist}&refresh=1m&from=now-6M&to=now"
         }
       ],
       "options": {
@@ -472,7 +553,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -503,7 +585,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -535,7 +618,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -564,7 +648,10 @@
       "type": "candlestick"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -731,7 +818,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -763,7 +851,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -795,7 +884,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -824,7 +914,10 @@
       "type": "timeseries"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -993,7 +1086,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1022,7 +1116,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1051,7 +1146,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1080,7 +1176,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1114,7 +1211,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1148,7 +1246,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1182,7 +1281,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1216,7 +1316,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1237,9 +1338,8 @@
         },
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "($CLOSE_WATCHLIST / $START_WATCHLIST) - 1",
           "hide": false,
@@ -1248,9 +1348,8 @@
         },
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "($CLOSE_SPY / $START_SPY) - 1",
           "hide": false,
@@ -1259,9 +1358,8 @@
         },
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "($CLOSE_QQQ / $START_QQQ) - 1",
           "hide": false,
@@ -1270,9 +1368,8 @@
         },
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "($CLOSE_DIA / $START_DIA) - 1",
           "hide": false,
@@ -1285,7 +1382,10 @@
       "type": "timeseries"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1380,7 +1480,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1409,18 +1510,10 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
-        },
+        "current": {},
         "datasource": {
           "type": "postgres",
-          "uid": "4w-Y0YT4z"
+          "uid": "${DS_POSTGRESQL}"
         },
         "definition": "select ticker from watchlist where kind = 'ETF';",
         "hide": 0,
@@ -1446,6 +1539,6 @@
   "timezone": "",
   "title": "Watch List - ETF",
   "uid": "JYGq5nA4k",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }

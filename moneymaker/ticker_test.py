@@ -1,5 +1,5 @@
 import unittest
-import ticker
+import ticker_analytics
 from sqlalchemy import create_engine, text
 import pandas as pd
 from dotenv import load_dotenv
@@ -11,7 +11,7 @@ conn_string = os.getenv('db_connect_string')
 class TestStringMethods(unittest.TestCase):
 
     def test_stock_universe_xls_import(self):
-        ticker.stock_universe_xls_import()
+        ticker_analytics.stock_universe_xls_import()
         db = create_engine(conn_string)
         sql = "SELECT * FROM stocks;"
 
@@ -24,7 +24,7 @@ class TestStringMethods(unittest.TestCase):
             #assert_frame_equal(db_results.reset_index(drop=True), stocks_frame.reset_index(drop=True))
 
     def test_stock_universe_drop(self):
-        ticker.stock_universe_drop()
+        ticker_analytics.stock_universe_drop()
         db = create_engine(conn_string)
         sql = "SELECT * FROM information_schema.tables where table_name='stocks';"
         with db.begin() as conn:
@@ -32,33 +32,37 @@ class TestStringMethods(unittest.TestCase):
             self.assertEqual(db_results.rowcount, 0)
 
     def test_get_rsi_rating(self):
-        rsi_rating = ticker.get_rsi_rating('AAPL')
+        rsi_rating = ticker_analytics.get_rsi_rating('AAPL')
         self.assertGreater(rsi_rating, 10)
 
+    def test_get_macd_slope(self):
+        macd_slope = ticker_analytics.get_macd_slope('PEP')
+        self.assertGreater(macd_slope, 10)
+
     def test_get_sma_rating(self):
-        sma_rating = ticker.get_sma_rating('AAPL')
+        sma_rating = ticker_analytics.get_sma_rating('AAPL')
         self.assertGreater(sma_rating, 0)
 
     def test_fix_market_cap(self):
-        fixed_market_cap = ticker.fix_market_cap("$50.0B")
+        fixed_market_cap = ticker_analytics.fix_market_cap("$50.0B")
         self.assertEqual(50000.0, fixed_market_cap)
-        fixed_market_cap = ticker.fix_market_cap("$50.0T")
+        fixed_market_cap = ticker_analytics.fix_market_cap("$50.0T")
         self.assertEqual(50000000.0, fixed_market_cap)
-        fixed_market_cap = ticker.fix_market_cap("$50.0M")
+        fixed_market_cap = ticker_analytics.fix_market_cap("$50.0M")
         self.assertEqual(50.0, fixed_market_cap)
 
     def test_fix_dividend_yield(self):
-        fixed_dividend_yield = ticker.fix_dividend_yield(0.0057)
+        fixed_dividend_yield = ticker_analytics.fix_dividend_yield(0.0057)
         self.assertEqual(0.57, fixed_dividend_yield)
-        fixed_dividend_yield = ticker.fix_dividend_yield("--")
+        fixed_dividend_yield = ticker_analytics.fix_dividend_yield("--")
         self.assertEqual(0.00, fixed_dividend_yield)
 
     def test_get_pe(self):
-        pe = ticker.get_pe("IBM")
+        pe = ticker_analytics.get_pe("IBM")
         self.assertGreater(pe, 0)
 
     def test_watchlist_xls_import(self):
-        ticker.watchlist_xls_import()
+        ticker_analytics.watchlist_xls_import()
         db = create_engine(conn_string)
         sql = "SELECT count(*) FROM WATCHLIST;"
         with db.begin() as conn:
@@ -69,12 +73,12 @@ class TestStringMethods(unittest.TestCase):
             self.assertEqual(rows, 19)
 
     def test_add_ticker_to_watchlist(self):
-        ticker.add_ticker_to_watchlist("GS", "stock")
-        ticker.add_ticker_to_watchlist("SQQQ", "etf")
+        ticker_analytics.add_ticker_to_watchlist("GS", "stock")
+        ticker_analytics.add_ticker_to_watchlist("SQQQ", "etf")
 
     def test_delete_ticker_from_watchlist(self):
-        ticker.delete_ticker_from_watchlist("GS", "stock")
-        ticker.delete_ticker_from_watchlist("SQQQ", "etf")
+        ticker_analytics.delete_ticker_from_watchlist("GS", "stock")
+        ticker_analytics.delete_ticker_from_watchlist("SQQQ", "etf")
 
 if __name__ == '__main__':
     unittest.main()

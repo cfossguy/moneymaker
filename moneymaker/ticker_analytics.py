@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import os
 from polygon import RESTClient
 from sqlalchemy.exc import IntegrityError
+from scipy.stats import linregress
 
 formatter = Logfmter(keys=["ts", "level"],mapping={"ts": "asctime", "level": "levelname"})
 
@@ -39,7 +40,10 @@ def stock_universe_xls_import():
 
     stocks_frame['pe'] = stocks_frame.apply(lambda row: get_pe(row.ticker.strip()), axis=1)
 
-    stocks_frame[['rsi_rating', 'sma_rating', 'market_cap', 'dividend_yield', 'pe']].apply(pd.to_numeric)
+    stocks_frame['macd_slope'] = stocks_frame.apply(lambda row: get_macd_slope(row.ticker.strip()), axis=1)
+
+    stocks_frame[['rsi_rating', 'sma_rating', 'market_cap', 'dividend_yield', 'pe', 'macd_slope']].apply(pd.to_numeric)
+
     db = create_engine(conn_string)
 
     with db.begin() as conn:
@@ -70,6 +74,25 @@ def get_rsi_rating(ticker):
         return rsi_rating
     except IndexError as e:
         logging.error(f'rsi for {ticker} has error - {e}')
+        return 0
+
+def get_macd_slope(ticker):
+    # get +- number of weeks that macd is going up/down poloygon.io
+    try:
+        macd_days = client.get_macd(ticker=f'{ticker}', timespan='day', short_window='12', long_window='26', signal_window='9', adjusted='true', series_type='close', order='asc').values
+        macds_s = []
+        macds_i = []
+        for idx, macd_w in enumerate(macd_days):
+            macds_s.append(macd_w.signal)
+            macds_i.append(idx)
+        macd_slope = round(linregress(macds_i, macds_s).slope, 2)
+        logging.info(f'macd slope for {ticker} is: {macd_slope}')
+        return macd_slope
+    except IndexError as e:
+        logging.error(f'macd slope for {ticker} has error - {e}')
+        return 0
+    except ValueError as ve:
+        logging.error(f'SMA rating for {ticker} has error - {ve}')
         return 0
 
 def get_sma_rating(ticker):

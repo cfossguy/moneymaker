@@ -1,4 +1,53 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_INFINITY",
+      "label": "Infinity",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "yesoreyeram-infinity-datasource",
+      "pluginName": "Infinity"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "candlestick",
+      "name": "Candlestick",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.3.2"
+    },
+    {
+      "type": "panel",
+      "id": "marcusolsson-dynamictext-panel",
+      "name": "Dynamic Text",
+      "version": "2.2.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "yesoreyeram-infinity-datasource",
+      "name": "Infinity",
+      "version": "1.3.0"
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -24,7 +73,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": null,
   "links": [
     {
       "asDropdown": false,
@@ -80,7 +129,7 @@
         {
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
-            "uid": "wDc2JLo4z"
+            "uid": "${DS_INFINITY}"
           },
           "description": "",
           "gridPos": {
@@ -128,7 +177,7 @@
               ],
               "datasource": {
                 "type": "yesoreyeram-infinity-datasource",
-                "uid": "wDc2JLo4z"
+                "uid": "${DS_INFINITY}"
               },
               "filters": [],
               "format": "table",
@@ -168,7 +217,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "wDc2JLo4z"
+        "uid": "${DS_INFINITY}"
       },
       "description": "",
       "fieldConfig": {
@@ -329,7 +378,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -361,7 +411,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -393,7 +444,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -424,7 +476,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "wDc2JLo4z"
+        "uid": "${DS_INFINITY}"
       },
       "description": "",
       "fieldConfig": {
@@ -579,7 +631,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -610,7 +663,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -642,7 +696,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -673,7 +728,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "wDc2JLo4z"
+        "uid": "${DS_INFINITY}"
       },
       "fieldConfig": {
         "defaults": {
@@ -787,7 +842,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -811,7 +867,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "wDc2JLo4z"
+        "uid": "${DS_INFINITY}"
       },
       "fieldConfig": {
         "defaults": {
@@ -878,7 +934,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -901,7 +958,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "wDc2JLo4z"
+        "uid": "${DS_INFINITY}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1015,7 +1072,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1039,7 +1097,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "wDc2JLo4z"
+        "uid": "${DS_INFINITY}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1106,7 +1164,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1129,7 +1188,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "wDc2JLo4z"
+        "uid": "${DS_INFINITY}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1225,7 +1284,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1246,7 +1306,10 @@
       "type": "timeseries"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
+      },
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -1312,7 +1375,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1333,7 +1397,10 @@
       "type": "stat"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1428,7 +1495,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1449,7 +1517,10 @@
       "type": "timeseries"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
+      },
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -1515,7 +1586,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1549,7 +1621,10 @@
       "type": "row"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
+      },
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -1615,7 +1690,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1637,7 +1713,10 @@
       "type": "stat"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
+      },
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -1703,7 +1782,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1725,7 +1805,10 @@
       "type": "stat"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1775,8 +1858,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1856,7 +1938,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -1880,7 +1963,10 @@
       "type": "candlestick"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1923,8 +2009,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1997,7 +2082,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -2020,7 +2106,10 @@
       "type": "candlestick"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2061,8 +2150,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "green",
@@ -2115,7 +2203,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -2137,7 +2226,10 @@
       "type": "timeseries"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "${DS_INFINITY}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2178,8 +2270,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2250,7 +2341,8 @@
             }
           ],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "${DS_INFINITY}"
           },
           "filters": [],
           "format": "table",
@@ -2283,9 +2375,9 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "PFE",
-          "value": "PFE"
+          "selected": true,
+          "text": "QQQ",
+          "value": "QQQ"
         },
         "hide": 1,
         "includeAll": false,
@@ -2299,7 +2391,7 @@
             "value": "SPY"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "QQQ",
             "value": "QQQ"
           },
@@ -2317,8 +2409,8 @@
     ]
   },
   "time": {
-    "from": "now-180d",
-    "to": "now"
+    "from": "2021-06-01T04:00:00.000Z",
+    "to": "2021-07-04T03:59:59.000Z"
   },
   "timepicker": {},
   "timezone": "",
