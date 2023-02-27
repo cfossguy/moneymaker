@@ -1,0 +1,42 @@
+#config file version
+apiVersion: 1
+
+# list of datasources to insert/update depending
+# on what's available in the database
+datasources:
+  - name: "PostgreSQL"
+    type: "postgres"
+    uid: "ds_postgres_moneymaker"
+    typeName: "postgres"
+    editable: true
+    url: "localhost:5432"
+    database: "moneymaker"
+    user: "python-api"
+    password: "${POSTGRES_MONEYMAKER_PASSWORD}"
+    jsonData:
+      sslmode: "disable"
+    verion: 1
+  - name: "TestData DB"
+    type: "testdata"
+    uid: "ds_testdata1"
+    typeName: "TestData DB"
+    editable: false
+    verion: 1
+  - name: "DS_INFINITY"
+    type: "yesoreyeram-infinity-datasource"
+    uid: "ds_infinity1"
+    basicAuth: false
+    basicAuthUser: ""
+    isDefault: false
+    editable: true
+    jsonData:
+      global_queries: []
+      oauthPassThru: false
+      auth_method: "apiKey"
+      apiKeyKey: "apiKey"
+      apiKeyType: "query"
+      allowedHosts:
+        - "https://api.polygon.io"
+    secureJsonData:
+      apiKeyValue: "${POLYGON_API_KEY}"
+

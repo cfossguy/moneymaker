@@ -1,0 +1,14 @@
+apiVersion: 1
+
+providers:
+  - name: 'dashboard_provider'
+    orgId: 1
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: false
+    options:
+      # <string, required> path to dashboard files on disk. Required when using the 'file' type
+      path: /Users/jwilliams/PycharmProjects/moneymaker/grafana/provisioning/dashboard_json
+      # <bool> use folder names from filesystem to create folders in Grafana
+      foldersFromFilesStructure: true

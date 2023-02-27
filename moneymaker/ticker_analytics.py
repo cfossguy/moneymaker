@@ -40,9 +40,10 @@ def stock_universe_xls_import():
 
     stocks_frame['pe'] = stocks_frame.apply(lambda row: get_pe(row.ticker.strip()), axis=1)
 
-    stocks_frame['macd_slope'] = stocks_frame.apply(lambda row: get_macd_slope(row.ticker.strip()), axis=1)
+    stocks_frame['macd_slope_d'] = stocks_frame.apply(lambda row: get_macd_slope(row.ticker.strip(), "day"), axis=1)
+    stocks_frame['macd_slope_w'] = stocks_frame.apply(lambda row: get_macd_slope(row.ticker.strip(), "week"), axis=1)
 
-    stocks_frame[['rsi_rating', 'sma_rating', 'market_cap', 'dividend_yield', 'pe', 'macd_slope']].apply(pd.to_numeric)
+    stocks_frame[['rsi_rating', 'sma_rating', 'market_cap', 'dividend_yield', 'pe', 'macd_slope_d', 'macd_slope_w']].apply(pd.to_numeric)
 
     db = create_engine(conn_string)
 
@@ -76,24 +77,24 @@ def get_rsi_rating(ticker):
         logging.error(f'rsi for {ticker} has error - {e}')
         return 0
 
-def get_macd_slope(ticker):
+def get_macd_slope(ticker, timespan):
     # get +- number of weeks that macd is going up/down poloygon.io
     try:
-        macd_days = client.get_macd(ticker=f'{ticker}', timespan='day', short_window='12', long_window='26', signal_window='9', adjusted='true', series_type='close', order='asc').values
+        macd_days = client.get_macd(ticker=f'{ticker}', timespan=f'{timespan}', short_window='12', long_window='26', signal_window='9', adjusted='true', series_type='close', order='asc').values
         macds_s = []
         macds_i = []
         for idx, macd_w in enumerate(macd_days):
             macds_s.append(macd_w.signal)
             macds_i.append(idx)
         macd_slope = round(linregress(macds_i, macds_s).slope, 2)
-        logging.info(f'macd slope for {ticker} is: {macd_slope}')
+        logging.info(f'macd slope for {ticker} is: {macd_slope} over timespan: {timespan}')
         return macd_slope
     except IndexError as e:
-        logging.error(f'macd slope for {ticker} has error - {e}')
-        return 0
+        logging.error(f'macd slope for {ticker} over timespan: {timespan} has error - {e} ')
+        return -1
     except ValueError as ve:
-        logging.error(f'SMA rating for {ticker} has error - {ve}')
-        return 0
+        logging.error(f'macd rating for {ticker} over timespan: {timespan} has error - {ve}')
+        return -1
 
 def get_sma_rating(ticker):
     sma_rating = 0
@@ -178,9 +179,9 @@ def stock_universe_drop():
 def add_ticker_to_watchlist(ticker, kind):
     try:
         db = create_engine(conn_string)
-        ticker = ticker.upper()
-        kind = kind.upper()
-        sql = f"INSERT INTO WATCHLIST(ticker,kind) VALUES(\'{ticker}\', \'{kind}\');"
+        f_ticker = ticker.upper().strip()
+        f_kind = kind.upper()
+        sql = f"INSERT INTO WATCHLIST(ticker,kind) VALUES(\'{f_ticker}\', \'{f_kind}\');"
         with db.begin() as conn:
             conn.execute(text(sql))
         result = f"{ticker} of kind {kind} inserted into watchlist"

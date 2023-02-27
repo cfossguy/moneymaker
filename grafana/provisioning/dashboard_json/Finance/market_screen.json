@@ -18,12 +18,6 @@
       "version": "9.3.2"
     },
     {
-      "type": "panel",
-      "id": "marcusolsson-dynamictext-panel",
-      "name": "Dynamic Text",
-      "version": "2.2.0"
-    },
-    {
       "type": "datasource",
       "id": "postgres",
       "name": "PostgreSQL",
@@ -106,8 +100,8 @@
       },
       "description": "",
       "gridPos": {
-        "h": 6,
-        "w": 3,
+        "h": 5,
+        "w": 23,
         "x": 0,
         "y": 1
       },
@@ -125,7 +119,7 @@
             "title": "Ticker",
             "tooltip": "",
             "type": "string",
-            "value": "WBD",
+            "value": "ADM",
             "width": 10
           },
           {
@@ -212,7 +206,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "${DS_POSTGRESQL}"
+        "uid": "ds_postgres_moneymaker"
       },
       "fieldConfig": {
         "defaults": {
@@ -331,10 +325,10 @@
         ]
       },
       "gridPos": {
-        "h": 19,
+        "h": 27,
         "w": 8,
-        "x": 3,
-        "y": 1
+        "x": 0,
+        "y": 6
       },
       "id": 3,
       "options": {
@@ -359,7 +353,7 @@
           "columns": [],
           "datasource": {
             "type": "postgres",
-            "uid": "${DS_POSTGRESQL}"
+            "uid": "ds_postgres_moneymaker"
           },
           "editorMode": "code",
           "filters": [],
@@ -401,7 +395,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "${DS_POSTGRESQL}"
+        "uid": "ds_postgres_moneymaker"
       },
       "fieldConfig": {
         "defaults": {
@@ -590,12 +584,16 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "macd_slope"
+              "options": "macd_slope_d"
             },
             "properties": [
               {
                 "id": "custom.width",
-                "value": 120
+                "value": 90
+              },
+              {
+                "id": "displayName",
+                "value": "macd_d"
               }
             ]
           },
@@ -610,14 +608,30 @@
                 "value": 30
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "macd_slope_w"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 90
+              },
+              {
+                "id": "displayName",
+                "value": "macd_w"
+              }
+            ]
           }
         ]
       },
       "gridPos": {
-        "h": 19,
-        "w": 13,
-        "x": 11,
-        "y": 1
+        "h": 15,
+        "w": 15,
+        "x": 8,
+        "y": 6
       },
       "id": 5,
       "options": {
@@ -642,7 +656,7 @@
           "columns": [],
           "datasource": {
             "type": "postgres",
-            "uid": "${DS_POSTGRESQL}"
+            "uid": "ds_postgres_moneymaker"
           },
           "editorMode": "code",
           "filters": [],
@@ -650,7 +664,7 @@
           "global_query_id": "",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "select rsi_rating as \"RSI\", sma_rating as \"SMA\", ticker, name, sector, industry, beta, dividend_yield, pe, macd_slope\nfrom stocks\nwhere rsi_rating < (\n  select percentile_cont($rsi_percentile / 100.00) within group (order by rsi_rating) from stocks\n)\nAND sma_rating <= $sma_rating_f AND industry IN ($industry) AND sector IN ($sector)\norder by sma_rating asc; ",
+          "rawSql": "select rsi_rating as \"RSI\", sma_rating as \"SMA\", ticker, name, sector, industry, beta, dividend_yield, pe, macd_slope_d, macd_slope_w\nfrom stocks\nwhere rsi_rating < (\n  select percentile_cont($rsi_percentile / 100.00) within group (order by rsi_rating) from stocks\n)\nAND sma_rating <= $sma_rating_f AND industry IN ($industry) AND sector IN ($sector)\norder by sma_rating asc; ",
           "refId": "A",
           "root_selector": "",
           "source": "url",
@@ -685,26 +699,260 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "${DS_POSTGRESQL}"
+        "uid": "ds_postgres_moneymaker"
       },
-      "description": "",
-      "gridPos": {
-        "h": 18,
-        "w": 3,
-        "x": 0,
-        "y": 7
-      },
-      "id": 13,
-      "options": {
-        "content": "<div class=\"row\">\n  <div class=\"col-md-8\" markdown=\"1\">\n    <h3>Stocks</h3>\n    {{#each data}}\n    {{#if (eq kind \"STOCK\")}}\n    <div>\n      <u>\n      <a\n        href=\"http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker={{ticker}}&from=now-180d&to=now\" style=\"u\">{{ticker}}</a>\n      </u>\n    </div>\n    {{/if}}\n    {{/each}}\n  </div>\n  <div class=\"col-md-4\" markdown=\"1\">\n    <h3>ETFs</h3>\n    {{#each data}}\n    {{#if (eq kind \"ETF\")}}\n    <div>\n      <u>\n        <a href=\"http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker={{ticker}}&from=now-180d&to=now\"\n          style=\"u\">{{ticker}}</a>\n      </u>\n    </div>\n    {{/if}}\n    {{/each}}\n  </div>\n</div>",
-        "defaultContent": "The query didn't return any results.",
-        "editor": {
-          "format": "auto",
-          "height": 200,
-          "language": "html"
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
         },
-        "everyRow": false,
-        "helpers": ""
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RSI"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 62
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "dark-green",
+                      "value": 40
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 50
+                    },
+                    {
+                      "color": "red",
+                      "value": 60
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "color-background-solid"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SMA"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "dark-green",
+                      "value": 1
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 3
+                    },
+                    {
+                      "color": "dark-red",
+                      "value": 5
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "color-background-solid"
+              },
+              {
+                "id": "custom.width",
+                "value": 20
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ticker"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 60
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Triple Screen",
+                    "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker=${__data.fields.ticker}&from=now-180d&to=now"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "beta"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 20
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dividend_yield"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 200
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "sector"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 180
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "industry"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 250
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "macd_slope_d"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 90
+              },
+              {
+                "id": "displayName",
+                "value": "macd_d"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "pe"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 30
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "macd_slope_w"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 90
+              },
+              {
+                "id": "displayName",
+                "value": "macd_w"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 15,
+        "x": 8,
+        "y": 21
+      },
+      "id": 15,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "ticker"
+          }
+        ]
       },
       "pluginVersion": "9.3.2",
       "targets": [
@@ -712,25 +960,22 @@
           "columns": [],
           "datasource": {
             "type": "postgres",
-            "uid": "${DS_POSTGRESQL}"
+            "uid": "ds_postgres_moneymaker"
           },
-          "editorMode": "builder",
+          "editorMode": "code",
           "filters": [],
           "format": "table",
           "global_query_id": "",
-          "rawSql": "SELECT * FROM watchlist LIMIT 50 ",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "select rsi_rating as \"RSI\", sma_rating as \"SMA\", watchlist.ticker, name, sector, industry, beta, dividend_yield, pe, macd_slope_d, macd_slope_w\nfrom stocks, watchlist\nwhere stocks.ticker = watchlist.ticker\norder by sma_rating asc; ",
           "refId": "A",
           "root_selector": "",
           "source": "url",
           "sql": {
             "columns": [
               {
-                "parameters": [
-                  {
-                    "name": "*",
-                    "type": "functionParameter"
-                  }
-                ],
+                "parameters": [],
                 "type": "function"
               }
             ],
@@ -742,17 +987,8 @@
                 "type": "groupBy"
               }
             ],
-            "limit": 50,
-            "whereJsonTree": {
-              "children1": [],
-              "id": "aba989a8-89ab-4cde-b012-318605108075",
-              "properties": {
-                "conjunction": "AND"
-              },
-              "type": "group"
-            }
+            "limit": 50
           },
-          "table": "watchlist",
           "type": "json",
           "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
           "url_options": {
@@ -761,7 +997,8 @@
           }
         }
       ],
-      "type": "marcusolsson-dynamictext-panel"
+      "title": "Ticker - Watchlist",
+      "type": "table"
     },
     {
       "datasource": {
@@ -771,9 +1008,9 @@
       "description": "",
       "gridPos": {
         "h": 5,
-        "w": 21,
-        "x": 3,
-        "y": 20
+        "w": 23,
+        "x": 0,
+        "y": 33
       },
       "id": 14,
       "options": {
@@ -850,7 +1087,7 @@
         "current": {},
         "datasource": {
           "type": "postgres",
-          "uid": "${DS_POSTGRESQL}"
+          "uid": "ds_postgres_moneymaker"
         },
         "definition": "select distinct(sector) from stocks;",
         "hide": 0,
@@ -870,7 +1107,7 @@
         "current": {},
         "datasource": {
           "type": "postgres",
-          "uid": "${DS_POSTGRESQL}"
+          "uid": "ds_postgres_moneymaker"
         },
         "definition": "select distinct(industry) from stocks;",
         "hide": 0,
@@ -949,26 +1186,6 @@
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "0",
-          "value": "0"
-        },
-        "hide": 0,
-        "label": "MACD Slope Min",
-        "name": "macd_slope",
-        "options": [
-          {
-            "selected": true,
-            "text": "0",
-            "value": "0"
-          }
-        ],
-        "query": "0",
-        "skipUrlSync": false,
-        "type": "textbox"
       }
     ]
   },
@@ -980,6 +1197,6 @@
   "timezone": "",
   "title": "Market Screen",
   "uid": "ooEr-YoVz",
-  "version": 90,
+  "version": 96,
   "weekStart": ""
 }
