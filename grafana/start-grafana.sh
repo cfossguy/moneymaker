@@ -1,1 +1,1 @@
-$GRAFANA_HOME/bin/grafana-server -homepath $GRAFANA_HOME
+$GRAFANA_HOME/bin/grafana-server -homepath $GRAFANA_HOME --config $GRAFANA_HOME/conf/custom.ini
