@@ -1,0 +1,20 @@
+template_files: {}
+template_file_provenances: {}
+alertmanager_config:
+  route:
+    receiver: discord
+    group_by:
+    - grafana_folder
+    - alertname
+  templates:
+  receivers:
+  - name: discord
+    grafana_managed_receiver_configs:
+    - uid: ApUr9k-4zz
+      name: discord
+      type: discord
+      disableResolveMessage: false
+      settings:
+        url: https://discord.com/api/webhooks/1082798675308335215/Ecqb10R59fFzWhaP-thyx1o0D_ucMX8zlzgSpcJjcaetNcQzeRVXcDqHrumkiU7bDlM6
+        use_discord_username: false
+      secureFields: {}

@@ -1,0 +1,221 @@
+apiVersion: 1
+
+contactPoints:
+    # <int> organization ID, default = 1
+  - orgId: 1
+    # <string, required> name of the contact point
+    name: discord
+    receivers:
+    - uid: ApUr9k-4zz
+      name: discord
+      type: discord
+      disableResolveMessage: false
+      settings:
+        url: https://discord.com/api/webhooks/1082798675308335215/Ecqb10R59fFzWhaP-thyx1o0D_ucMX8zlzgSpcJjcaetNcQzeRVXcDqHrumkiU7bDlM6
+        use_discord_username: false
+
+policies:
+   - orgId: 1
+     receiver: discord
+     group_by:
+       - grafana_folder
+       - alertname
+
+groups:
+    - orgId: 1
+      name: stocks
+      folder: Finance
+      interval: 1m
+      rules:
+        - uid: HYJp9zaVz
+          title: RSI High
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: ds_postgres_moneymaker
+              model:
+                datasource:
+                    type: postgres
+                    uid: ds_postgres_moneymaker
+                editorMode: code
+                format: table
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                rawQuery: true
+                rawSql: |-
+                    select rsi_rating, watchlist.ticker
+                    from stocks, watchlist
+                    where stocks.ticker = watchlist.ticker;
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                            type: string
+                          type: groupBy
+                    limit: 50
+                table: watchlist
+            - refId: B
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 50
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: NoData
+          execErrState: Error
+          for: 2m
+          isPaused: false
+        - uid: OxMKjk-4k
+          title: MACD Rating
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: ds_postgres_moneymaker
+              model:
+                datasource:
+                    type: postgres
+                    uid: ds_postgres_moneymaker
+                editorMode: code
+                format: table
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                rawQuery: true
+                rawSql: |-
+                    select macd_rating, watchlist.ticker
+                    from stocks, watchlist
+                    where stocks.ticker = watchlist.ticker;
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                            type: string
+                          type: groupBy
+                    limit: 50
+                table: watchlist
+            - refId: B
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 3
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          noDataState: NoData
+          execErrState: Error
+          for: 2m
+          isPaused: false

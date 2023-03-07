@@ -40,10 +40,9 @@ def stock_universe_xls_import():
 
     stocks_frame['pe'] = stocks_frame.apply(lambda row: get_pe(row.ticker.strip()), axis=1)
 
-    stocks_frame['macd_slope_d'] = stocks_frame.apply(lambda row: get_macd_slope(row.ticker.strip(), "day"), axis=1)
-    stocks_frame['macd_slope_w'] = stocks_frame.apply(lambda row: get_macd_slope(row.ticker.strip(), "week"), axis=1)
+    stocks_frame['macd_rating'] = stocks_frame.apply(lambda row: get_macd_rating(row.ticker.strip()), axis=1)
 
-    stocks_frame[['rsi_rating', 'sma_rating', 'market_cap', 'dividend_yield', 'pe', 'macd_slope_d', 'macd_slope_w']].apply(pd.to_numeric)
+    stocks_frame[['rsi_rating', 'sma_rating', 'market_cap', 'dividend_yield', 'pe', 'macd_rating']].apply(pd.to_numeric)
 
     db = create_engine(conn_string)
 
@@ -77,23 +76,52 @@ def get_rsi_rating(ticker):
         logging.error(f'rsi for {ticker} has error - {e}')
         return 0
 
-def get_macd_slope(ticker, timespan):
+def get_macd_rating(ticker):
     # get +- number of weeks that macd is going up/down poloygon.io
     try:
-        macd_days = client.get_macd(ticker=f'{ticker}', timespan=f'{timespan}', short_window='12', long_window='26', signal_window='9', adjusted='true', series_type='close', order='asc').values
+        macd_day = client.get_macd(ticker=f'{ticker}', timespan='day', short_window='12', long_window='26', signal_window='9', adjusted='true', series_type='close', order='asc').values
+        macd_week = client.get_macd(ticker=f'{ticker}', timespan='week', short_window='12', long_window='26',
+                                   signal_window='9', adjusted='true', series_type='close', order='asc').values
         macds_s = []
         macds_i = []
-        for idx, macd_w in enumerate(macd_days):
+        for idx, macd_d in enumerate(macd_day):
+            macds_s.append(macd_d.signal)
+            macds_i.append(idx)
+        macd_slope_d = round(linregress(macds_i, macds_s).slope, 2)
+        logging.info(f'macd daily slope for {ticker} is: {macd_slope_d}')
+
+        macds_s = []
+        macds_i = []
+        for idx, macd_w in enumerate(macd_week):
             macds_s.append(macd_w.signal)
             macds_i.append(idx)
-        macd_slope = round(linregress(macds_i, macds_s).slope, 2)
-        logging.info(f'macd slope for {ticker} is: {macd_slope} over timespan: {timespan}')
-        return macd_slope
+        macd_slope_w = round(linregress(macds_i, macds_s).slope, 2)
+        logging.info(f'macd weekly slope for {ticker} is: {macd_slope_w}')
+
+        if macd_slope_d is None or macd_slope_w is None:
+            logging.info(f'macd rating {ticker} is: 0')
+            return 0
+        if macd_slope_d > 0 and macd_slope_w > 0:
+            logging.info(f'macd rating {ticker} is: 1')
+            return 1
+        elif macd_slope_w > 0:
+            logging.info(f'macd rating {ticker} is: 2')
+            return 2
+        elif macd_slope_d > 0:
+            logging.info(f'macd rating {ticker} is: 3')
+            return 3
+        elif macd_slope_d > macd_slope_w:
+            logging.info(f'macd rating {ticker} is: 4')
+            return 4
+        else:
+            logging.info(f'macd rating {ticker} is: 5')
+            return 5
+
     except IndexError as e:
-        logging.error(f'macd slope for {ticker} over timespan: {timespan} has error - {e} ')
+        logging.error(f'macd rating for {ticker} has error - {e} ')
         return -1
     except ValueError as ve:
-        logging.error(f'macd rating for {ticker} over timespan: {timespan} has error - {ve}')
+        logging.error(f'macd rating for {ticker} has error - {ve}')
         return -1
 
 def get_sma_rating(ticker):

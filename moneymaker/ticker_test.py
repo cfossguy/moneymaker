@@ -35,11 +35,9 @@ class TestStringMethods(unittest.TestCase):
         rsi_rating = ticker_analytics.get_rsi_rating('AAPL')
         self.assertGreater(rsi_rating, 10)
 
-    def test_get_macd_slope(self):
-        macd_slope_d = ticker_analytics.get_macd_slope('PEP', 'day')
-        self.assertNotEqual(macd_slope_d, 0)
-        macd_slope_w = ticker_analytics.get_macd_slope('PEP', 'week')
-        self.assertNotEqual(macd_slope_w, 0)
+    def test_get_macd_rating(self):
+        macd_rating = ticker_analytics.get_macd_rating('PEP')
+        self.assertNotEqual(macd_rating, 0)
 
     def test_get_sma_rating(self):
         sma_rating = ticker_analytics.get_sma_rating('AAPL')
