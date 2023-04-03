@@ -1036,14 +1036,18 @@
             "options": [
               {
                 "label": "import stock universe and run analytics",
-                "value": "import"
+                "value": "import_postgres"
+              },
+              {
+                "label": "import LLM embeddings into pinecone",
+                "value": "import_pinecone"
               }
             ],
             "section": "",
             "title": "Operation",
             "tooltip": "",
             "type": "select",
-            "value": "import"
+            "value": "import_postgres"
           }
         ],
         "initial": {
@@ -1260,6 +1264,6 @@
   "timezone": "",
   "title": "Market Screen",
   "uid": "ooEr-YoVz",
-  "version": 6,
+  "version": 7,
   "weekStart": ""
 }

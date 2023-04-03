@@ -2,7 +2,6 @@ source .env
 echo "Updating grafana configuration"
 mkdir -p $GRAFANA_BASEDIR
 cp -rf ./custom.ini $GRAFANA_HOME/conf/custom.ini
-mv ./grafana-$GRAFANA_VERSION $GRAFANA_BASEDIR
 cp -rp ./provisioning/* $GRAFANA_HOME/conf/provisioning/
 cp -f ./custom.ini $GRAFANA_HOME/conf/
 

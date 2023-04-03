@@ -1,0 +1,593 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 12,
+        "w": 10,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "buttonGroup": {
+          "orientation": "center",
+          "size": "lg"
+        },
+        "elements": [
+          {
+            "id": "text_prompt",
+            "labelWidth": 5,
+            "rows": 10,
+            "section": "",
+            "title": "",
+            "tooltip": "",
+            "type": "textarea",
+            "unit": "",
+            "value": "Attractive valuation\nFinancials sector\nCheap",
+            "width": 88
+          },
+          {
+            "id": "rsi_max",
+            "labelWidth": 20,
+            "max": 100,
+            "min": 0,
+            "section": "",
+            "step": 5,
+            "title": "RSI Rating - Max",
+            "tooltip": "",
+            "type": "slider",
+            "value": 50,
+            "width": 0
+          },
+          {
+            "id": "macd_max",
+            "labelWidth": 20,
+            "max": 5,
+            "min": 1,
+            "section": "",
+            "step": 1,
+            "title": "MACD Rating - Max",
+            "tooltip": "",
+            "type": "slider",
+            "value": 5,
+            "width": 0
+          },
+          {
+            "id": "sma_max",
+            "labelWidth": 20,
+            "max": 5,
+            "min": 1,
+            "section": "",
+            "step": 1,
+            "title": "SMA Rating - Max",
+            "tooltip": "",
+            "type": "slider",
+            "value": 5,
+            "width": 0
+          }
+        ],
+        "initial": {
+          "code": "console.log(data, response, initial, elements)",
+          "contentType": "application/json",
+          "highlight": false,
+          "highlightColor": "red",
+          "method": "GET"
+        },
+        "layout": {
+          "variant": "single"
+        },
+        "reset": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "process",
+          "text": "Reset",
+          "variant": "hidden"
+        },
+        "submit": {
+          "backgroundColor": "purple",
+          "foregroundColor": "yellow",
+          "icon": "microsoft",
+          "text": "Submit Query",
+          "variant": "primary"
+        },
+        "update": {
+          "code": "if (response && response.ok) {\n  response.json().then((resp) => {\n    locationService.partial({ \"var-pinecone_result\": resp[\"result\"] }, true);\n  });\n} else {\n  response.json().then((resp) => {\n    notifyError([\"Error\", resp[\"result\"]]);\n  });\n}",
+          "confirm": false,
+          "contentType": "application/json",
+          "method": "POST",
+          "updatedOnly": false,
+          "url": "http://localhost:5000/pinecone"
+        }
+      },
+      "title": "Tell me more about what you are looking for?",
+      "type": "volkovlabs-form-panel"
+    },
+    {
+      "datasource": {
+        "type": "testdata",
+        "uid": "ds_testdata1"
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 9,
+        "x": 10,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "code": {
+          "language": "html",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<pre>${pinecone_result}</pre>",
+        "mode": "html"
+      },
+      "pluginVersion": "9.4.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "testdata",
+            "uid": "ds_testdata1"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Recommendation Results",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "ds_postgres_moneymaker"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RSI"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 70
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "dark-green",
+                      "value": 40
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 50
+                    },
+                    {
+                      "color": "red",
+                      "value": 60
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "color-background"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SMA"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "dark-green",
+                      "value": 1
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 3
+                    },
+                    {
+                      "color": "dark-red",
+                      "value": 5
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 68
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ticker"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 74
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Triple Screen",
+                    "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker=${__data.fields.ticker}&from=now-180d&to=now"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "beta"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 63
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dividend_yield"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 91
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 200
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "sector"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 180
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MACD"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "dark-green",
+                      "value": 1
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 3
+                    },
+                    {
+                      "color": "red",
+                      "value": 5
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "basic",
+                  "type": "color-background"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "pe"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 30
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "industry"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 334
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 19,
+        "x": 0,
+        "y": 12
+      },
+      "id": 6,
+      "options": {
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "ticker"
+          }
+        ]
+      },
+      "pluginVersion": "9.4.3",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "postgres",
+            "uid": "ds_postgres_moneymaker"
+          },
+          "editorMode": "code",
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "select rsi_rating as \"RSI\", sma_rating as \"SMA\", macd_rating as \"MACD\", ticker, name, sector, industry\nfrom stocks\nwhere industry \nIN ($industry) AND sector IN ($sector)",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Ticker Screener",
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "revision": 1,
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "finance"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "{'score': '0.82', 'ticker': 'DFS', 'rsi_rating': 46.8, 'macd_rating': 3.0, 'sma_rating': 2.0}\n{'score': '0.81', 'ticker': 'ELV', 'rsi_rating': 39.3, 'macd_rating': 3.0, 'sma_rating': 1.0}\n{'score': '0.81', 'ticker': 'HRL', 'rsi_rating': 35.6, 'macd_rating': 1.0, 'sma_rating': 1.0}",
+          "value": "{'score': '0.82', 'ticker': 'DFS', 'rsi_rating': 46.8, 'macd_rating': 3.0, 'sma_rating': 2.0}\n{'score': '0.81', 'ticker': 'ELV', 'rsi_rating': 39.3, 'macd_rating': 3.0, 'sma_rating': 1.0}\n{'score': '0.81', 'ticker': 'HRL', 'rsi_rating': 35.6, 'macd_rating': 1.0, 'sma_rating': 1.0}"
+        },
+        "hide": 2,
+        "label": "pinecone_result",
+        "name": "pinecone_result",
+        "options": [
+          {
+            "selected": false,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "{'score': '0.82', 'ticker': 'DFS', 'rsi_rating': 46.8, 'macd_rating': 3.0, 'sma_rating': 2.0}\n{'score': '0.81', 'ticker': 'ELV', 'rsi_rating': 39.3, 'macd_rating': 3.0, 'sma_rating': 1.0}\n{'score': '0.81', 'ticker': 'HRL', 'rsi_rating': 35.6, 'macd_rating': 1.0, 'sma_rating': 1.0}",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "ds_postgres_moneymaker"
+        },
+        "definition": "select distinct(sector) from stocks;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Sector",
+        "multi": true,
+        "name": "sector",
+        "options": [],
+        "query": "select distinct(sector) from stocks;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "ds_postgres_moneymaker"
+        },
+        "definition": "select distinct(industry) from stocks;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Industry",
+        "multi": true,
+        "name": "industry",
+        "options": [],
+        "query": "select distinct(industry) from stocks;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "AI Based - Stock Recommender",
+  "uid": "DTM0JxBVz",
+  "version": 70,
+  "weekStart": ""
+}

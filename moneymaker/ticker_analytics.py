@@ -8,6 +8,8 @@ import os
 from polygon import RESTClient
 from sqlalchemy.exc import IntegrityError
 from scipy.stats import linregress
+from pandarallel import pandarallel
+import time
 
 formatter = Logfmter(keys=["ts", "level"],mapping={"ts": "asctime", "level": "levelname"})
 
@@ -23,32 +25,37 @@ client = RESTClient(api_key=polygon_api_key)
 use_small_dataset = False
 
 def stock_universe_xls_import():
-
+    start = time.time()
     if use_small_dataset:
         stocks_frame = pd.read_excel('stock_universe.xlsx', sheet_name="TDA_SCREEN_SMALL")
     else:
         stocks_frame = pd.read_excel('stock_universe.xlsx', sheet_name="TDA_SCREEN")
 
-    stocks_frame['rsi_rating'] = stocks_frame.apply(lambda row: get_rsi_rating(row.ticker.strip()), axis=1)
+    pandarallel.initialize(progress_bar=False)
+
+    stocks_frame['rsi_rating'] = stocks_frame.parallel_apply(lambda row: get_rsi_rating(row.ticker.strip()), axis=1)
     logging.info("rsi_rating column added for all tickers")
 
-    stocks_frame['sma_rating'] = stocks_frame.apply(lambda row: get_sma_rating(row.ticker.strip()), axis=1)
+    stocks_frame['sma_rating'] = stocks_frame.parallel_apply(lambda row: get_sma_rating(row.ticker.strip()), axis=1)
     logging.info("sma_rating column added for all tickers")
 
-    stocks_frame['market_cap'] = stocks_frame.apply(lambda row: fix_market_cap(row.market_cap), axis=1)
-    stocks_frame['dividend_yield'] = stocks_frame.apply(lambda row: fix_dividend_yield(row.dividend_yield), axis=1)
+    stocks_frame['market_cap'] = stocks_frame.parallel_apply(lambda row: fix_market_cap(row.market_cap), axis=1)
+    stocks_frame['dividend_yield'] = stocks_frame.parallel_apply(lambda row: fix_dividend_yield(row.dividend_yield), axis=1)
 
-    stocks_frame['pe'] = stocks_frame.apply(lambda row: get_pe(row.ticker.strip()), axis=1)
+    stocks_frame['pe'] = stocks_frame.parallel_apply(lambda row: get_pe(row.ticker.strip()), axis=1)
 
-    stocks_frame['macd_rating'] = stocks_frame.apply(lambda row: get_macd_rating(row.ticker.strip()), axis=1)
+    stocks_frame['macd_rating'] = stocks_frame.parallel_apply(lambda row: get_macd_rating(row.ticker.strip()), axis=1)
 
-    stocks_frame[['rsi_rating', 'sma_rating', 'market_cap', 'dividend_yield', 'pe', 'macd_rating']].apply(pd.to_numeric)
+    stocks_frame[['rsi_rating', 'sma_rating', 'market_cap', 'dividend_yield', 'pe', 'macd_rating']].parallel_apply(pd.to_numeric)
+
+    stocks_frame['news'] = stocks_frame.parallel_apply(lambda row: get_news(row.ticker.strip()), axis=1)
 
     db = create_engine(conn_string)
 
     with db.begin() as conn:
         stocks_frame.to_sql('stocks', con=conn, if_exists='replace', index=False)
-    logging.info("stock universe records loaded from excel to DB")
+    end = time.time()
+    logging.info(f'stock universe records loaded from excel to DB in {end - start} seconds')
 
 def watchlist_xls_import():
     watchlist_frame = pd.read_excel('stock_universe.xlsx', sheet_name="WATCHLIST")
@@ -172,6 +179,30 @@ def get_pe(ticker):
     except BaseException as x:
         logging.error(f'PE rating for {ticker} has error - {x}. May not have 4 past quarters of financials in polygon.io')
         return pe
+
+def get_news(ticker):
+    feed_details = str()
+    try:
+        news = client.list_ticker_news(ticker=f'{ticker}', limit=10)
+        newsfeed = []
+        while len(newsfeed) < 10:
+            n = next(news)
+            title = n.title
+            description = n.description
+            date = n.published_utc
+            summary = f"title={title}. summary={description}"
+            newsfeed.append(summary)
+        feed_details = '\n'.join([str(item) for item in newsfeed])
+        logging.info(f'News for {ticker} is: {feed_details}')
+
+        return feed_details
+
+    except IndexError as e:
+        logging.error(f'News for {ticker} has error - {e}. May not have data in polygon.io')
+        return feed_details
+    except BaseException as x:
+        logging.error(f'News for {ticker} has error - {x}. Unknown error polygon.io')
+        return feed_details
 
 
 def fix_market_cap(market_cap):

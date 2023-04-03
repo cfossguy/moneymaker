@@ -61,6 +61,10 @@ class TestStringMethods(unittest.TestCase):
         pe = ticker_analytics.get_pe("IBM")
         self.assertGreater(pe, 0)
 
+    def test_get_news(self):
+        news = ticker_analytics.get_news("IBM")
+        self.assertIsNotNone(news)
+
     def test_watchlist_xls_import(self):
         ticker_analytics.watchlist_xls_import()
         db = create_engine(conn_string)

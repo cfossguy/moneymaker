@@ -7,3 +7,6 @@ SQLAlchemy==1.4.27
 polygon-api-client==1.6.2
 openpyxl==3.0.10
 psycopg2-binary==2.9.5
+pandarallel==1.6.4
+
+273.99

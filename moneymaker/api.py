@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import os
 import logging
 from prometheus_flask_exporter import PrometheusMetrics
-from moneymaker import app, ticker_analytics
+from moneymaker import ticker_analytics, pinecone_analytics
 from multiprocessing import Process
 
 app = Flask(__name__)
@@ -40,13 +40,30 @@ def index():
 
 @app.route("/universe-import", methods=['POST'])
 def universe_import():
+
+    request_json = request.json
+    operation = request_json['operation']
+    logging.info(f"operation is: {operation}")
     data = {}
-    heavy_process = Process(
-        target=ticker_analytics.stock_universe_xls_import,
-        daemon=True
-    )
-    heavy_process.start()
-    data['result'] = "universe import running in background"
+
+    if operation == "import_postgres":
+        heavy_process = Process(
+            target=ticker_analytics.stock_universe_xls_import,
+            daemon=False
+        )
+        heavy_process.start()
+
+        data['result'] = "postgres - stock universe import running in background"
+
+    elif operation == "import_pinecone":
+        heavy_process = Process(
+            target=pinecone_analytics.stock_universe_pinecone_import,
+            daemon=False
+        )
+        heavy_process.start()
+
+        data['result'] = "pinecone - openai embedding import running in background"
+
     return jsonify(data), 200
 
 @app.route('/watchlist', methods=['POST'])
@@ -88,6 +105,33 @@ def watchlist():
         data['status'] = "ERROR"
         logging.error(f"error processing query: {query}")
         logging.error(be)
+        return jsonify(data), 500
+
+@app.route('/pinecone', methods=['POST'])
+#@token_required
+def pinecone():
+    data = {}
+    try:
+        query = request.json
+        logging.info(f"query is: {query}")
+        prompt = query['text_prompt']
+        max_rsi_rating = query['rsi_max']
+        max_macd_rating = query['macd_max']
+        max_sma_rating = query['sma_max']
+
+        pinecone_results = pinecone_analytics.pinecone_query(prompt=prompt,
+                                                           max_rsi_rating=max_rsi_rating,
+                                                           max_macd_rating=max_macd_rating,
+                                                           max_sma_rating=max_sma_rating)
+        data['status'] = "OK"
+        data['result'] = '\n'.join([str(item) for item in pinecone_results])
+        return jsonify(data), 200
+    except BaseException as be:
+        data['result'] = f"{be}"
+        data['status'] = "ERROR"
+        logging.error(f"error processing query: {query}")
+        logging.error(be)
+        raise be
         return jsonify(data), 500
 
 if __name__ == '__main__':
