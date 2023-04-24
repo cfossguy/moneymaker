@@ -40,4 +40,3 @@ datasources:
     secureJsonData:
       apiKeyValue: ${polygon_api_key}
 
-
