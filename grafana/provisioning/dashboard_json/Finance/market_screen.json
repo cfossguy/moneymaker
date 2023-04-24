@@ -33,7 +33,7 @@
       "tags": [
         "finance"
       ],
-      "targetBlank": false,
+      "targetBlank": true,
       "title": "New link",
       "tooltip": "",
       "type": "dashboards",
@@ -81,7 +81,7 @@
             "title": "Ticker",
             "tooltip": "",
             "type": "string",
-            "value": "ADM",
+            "value": "PNC",
             "width": 10
           },
           {
@@ -493,6 +493,7 @@
                 "id": "links",
                 "value": [
                   {
+                    "targetBlank": true,
                     "title": "Triple Screen",
                     "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker=${__data.fields.ticker}&from=now-180d&to=now"
                   }
@@ -634,12 +635,7 @@
           "show": false
         },
         "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "ticker"
-          }
-        ]
+        "sortBy": []
       },
       "pluginVersion": "9.4.3",
       "targets": [
@@ -817,6 +813,7 @@
                 "id": "links",
                 "value": [
                   {
+                    "targetBlank": true,
                     "title": "Triple Screen",
                     "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker=${__data.fields.ticker}&from=now-180d&to=now"
                   }
@@ -960,8 +957,8 @@
         "showHeader": true,
         "sortBy": [
           {
-            "desc": true,
-            "displayName": "ticker"
+            "desc": false,
+            "displayName": "RSI"
           }
         ]
       },
@@ -1047,7 +1044,7 @@
             "title": "Operation",
             "tooltip": "",
             "type": "select",
-            "value": "import_postgres"
+            "value": "import_pinecone"
           }
         ],
         "initial": {
@@ -1101,9 +1098,13 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
         },
         "datasource": {
           "type": "postgres",
@@ -1125,9 +1126,13 @@
       },
       {
         "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
         },
         "datasource": {
           "type": "postgres",
@@ -1150,8 +1155,8 @@
       {
         "current": {
           "selected": false,
-          "text": "40",
-          "value": "40"
+          "text": "50",
+          "value": "50"
         },
         "description": "0 to 99",
         "hide": 0,
@@ -1160,11 +1165,11 @@
         "options": [
           {
             "selected": true,
-            "text": "40",
-            "value": "40"
+            "text": "50",
+            "value": "50"
           }
         ],
-        "query": "40",
+        "query": "50",
         "skipUrlSync": false,
         "type": "textbox"
       },
@@ -1264,6 +1269,6 @@
   "timezone": "",
   "title": "Market Screen",
   "uid": "ooEr-YoVz",
-  "version": 7,
+  "version": 9,
   "weekStart": ""
 }

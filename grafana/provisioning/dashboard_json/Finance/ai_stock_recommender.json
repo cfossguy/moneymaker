@@ -298,6 +298,7 @@
                 "id": "links",
                 "value": [
                   {
+                    "targetBlank": true,
                     "title": "Triple Screen",
                     "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker=${__data.fields.ticker}&from=now-180d&to=now"
                   }
@@ -513,7 +514,7 @@
         "name": "pinecone_result",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "",
             "value": ""
           }
@@ -588,6 +589,6 @@
   "timezone": "",
   "title": "AI Based - Stock Recommender",
   "uid": "DTM0JxBVz",
-  "version": 70,
+  "version": 71,
   "weekStart": ""
 }

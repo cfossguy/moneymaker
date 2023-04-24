@@ -26,9 +26,9 @@ datasources:
     type: "yesoreyeram-infinity-datasource"
     uid: "ds_infinity1"
     basicAuth: false
-    basicAuthUser: ""
     isDefault: false
     editable: true
+    myKey: "test"
     jsonData:
       global_queries: []
       oauthPassThru: false
@@ -38,5 +38,6 @@ datasources:
       allowedHosts:
         - "https://api.polygon.io"
     secureJsonData:
-      apiKeyValue: "${POLYGON_API_KEY}"
+      apiKeyValue: ${polygon_api_key}
+
 

@@ -38,7 +38,7 @@ def stock_universe_pinecone_import():
             for k, v in ticker_details.items():
                 embed_text = embed_text + f"{k}={v} AND "
             openai_embedding = openai.Embedding.create(input=embed_text, engine=model)
-            logging.info(f'Embed text for {index_id} is: {embed_text}')
+            logging.debug(f'Embed text for {index_id} is: {embed_text}')
             meta = {"ticker": ticker_details['ticker'],
                     "rsi_rating": ticker_details['rsi_rating'],
                     "sma_rating": ticker_details['sma_rating'],
@@ -48,6 +48,8 @@ def stock_universe_pinecone_import():
             index.upsert([
                 (str(index_id), embedding_result, meta)
             ])
+            logging.info(f"Embedded text loaded into pinecone for {meta['ticker']}")
+            logging.info(f"Embedded completion % {index_id / len(tickers_list) * 100}")
             index_id = index_id + 1
 
     except BaseException as be:
