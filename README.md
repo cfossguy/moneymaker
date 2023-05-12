@@ -8,19 +8,24 @@ following entries
 db_connect_string=postgresql://[username]:[password]@[host]:[port]/[dbname]
 polygon_api_key=[polygon.io api key]
 FLASK_APP=api.py
-pinecone_api_key=[pinecone api key - not used yet]
-pinecone_env=us-west1-gcp
+pinecone_api_key=[pinecone api key]
+pinecone_env=[pinecone region]
 ```
 
-### Step #2 - Startup python flask API
-
+### Step #2 - Install python dependencies
 ```
 cd ./moneymaker
+pip install -r requirements.txt
+```
+
+### Step #3 - Startup python flask API
+
+```
 source .env
 python ./api.py
 ```
 
-### Step #3 - Install, Configure and Start Grafana
+### Step #4 - Install, Configure and Start Grafana
 Create a .env file in ```./grafana``` with the 
 following entries
 ```
@@ -28,7 +33,7 @@ POLYGON_API_KEY=[polygon.io api key]
 POSTGRES_MONEYMAKER_PASSWORD=[postgres db password]
 
 GRAFANA_BASEDIR=[directory where grafana installations live]
-GRAFANA_VERSION=9.4.3
+GRAFANA_VERSION=9.5.1
 GRAFANA_HOME=$GRAFANA_BASEDIR/grafana-$GRAFANA_VERSION
 GF_DATABASE_TYPE=[database type for grafana custom.ini]
 GF_DATABASE_HOST=[database host for grafana custom.ini]
@@ -42,14 +47,4 @@ cd ./grafana
 source .env
 ./install-grafana.sh
 ./start-grafana.sh
-```
-
-#### OPTIONAL - Install moneymaker API as a package
-
-```pip install -e .```
-
-Run moneymaker API in gunicorn with self-signed certificate
-
-```
-gunicorn --certfile cert.pem --keyfile key.pem moneymaker:app
 ```

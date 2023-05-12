@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import os
 import logging
 from prometheus_flask_exporter import PrometheusMetrics
-from moneymaker import ticker_analytics, pinecone_analytics
+import ticker_analytics, pinecone_analytics
 from multiprocessing import Process
 
 app = Flask(__name__)
@@ -135,4 +135,4 @@ def pinecone():
         return jsonify(data), 500
 
 if __name__ == '__main__':
-    app.run(host= '0.0.0.0',debug=True, port='5000')
+    app.run(host= '0.0.0.0',debug=True, port='8000')

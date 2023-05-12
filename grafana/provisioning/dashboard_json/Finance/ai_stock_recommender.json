@@ -128,7 +128,7 @@
           "contentType": "application/json",
           "method": "POST",
           "updatedOnly": false,
-          "url": "http://localhost:5000/pinecone"
+          "url": "http://localhost:8000/pinecone"
         }
       },
       "title": "Tell me more about what you are looking for?",

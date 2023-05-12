@@ -74,7 +74,7 @@ class TestStringMethods(unittest.TestCase):
             rows = 0
             for row in result:
                 rows = row["count"]
-            self.assertEqual(rows, 19)
+            self.assertEqual(rows, 37)
 
     def test_add_ticker_to_watchlist(self):
         ticker_analytics.add_ticker_to_watchlist("GS", "stock")

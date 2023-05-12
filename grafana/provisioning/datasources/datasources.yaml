@@ -11,8 +11,8 @@ datasources:
     editable: true
     url: "localhost:5432"
     database: "moneymaker"
-    user: "python-api"
-    password: "${POSTGRES_MONEYMAKER_PASSWORD}"
+    user: "grafana"
+    password: "${GF_DATABASE_PASSWORD}"
     jsonData:
       sslmode: "disable"
     verion: 1

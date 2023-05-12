@@ -133,7 +133,7 @@
           "highlight": false,
           "highlightColor": "red",
           "method": "-",
-          "url": "http://localhost:5000/"
+          "url": "http://localhost:8000/"
         },
         "layout": {
           "variant": "single"
@@ -159,7 +159,7 @@
           "header": [],
           "method": "POST",
           "updatedOnly": false,
-          "url": "http://localhost:5000/watchlist"
+          "url": "http://localhost:8000/watchlist"
         }
       },
       "title": "Watch List",
@@ -1054,7 +1054,7 @@
           "highlight": false,
           "highlightColor": "red",
           "method": "-",
-          "url": "http://localhost:5000/universe-import"
+          "url": "http://localhost:8000/universe-import"
         },
         "layout": {
           "variant": "single"
@@ -1080,7 +1080,7 @@
           "header": [],
           "method": "POST",
           "updatedOnly": false,
-          "url": "http://localhost:5000/universe-import"
+          "url": "http://localhost:8000/universe-import"
         }
       },
       "title": "Analytics",
