@@ -1,7 +1,7 @@
 ## Quickstart
 
 ### Step #1 - Set environment variables - Python API
-Create a .env file in ```./moneymaker``` with the 
+Create a .env file in ```./python``` with the 
 following entries
 
 ```
@@ -14,7 +14,7 @@ pinecone_env=[pinecone region]
 
 ### Step #2 - Install python dependencies
 ```
-cd ./moneymaker
+cd ./python
 pip install -r requirements.txt
 ```
 

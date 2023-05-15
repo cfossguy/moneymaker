@@ -29,8 +29,8 @@
   "panels": [
     {
       "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
+        "type": "marcusolsson-static-datasource",
+        "uid": "b5977c67-0afa-4191-a760-a15814477989"
       },
       "description": "",
       "gridPos": {
@@ -55,7 +55,7 @@
             "tooltip": "",
             "type": "textarea",
             "unit": "",
-            "value": "Attractive valuation\nFinancials sector\nCheap",
+            "value": "Strong earnings\n#industry:airlines",
             "width": 88
           },
           {
@@ -106,6 +106,7 @@
           "method": "GET"
         },
         "layout": {
+          "padding": 10,
           "variant": "single"
         },
         "reset": {
@@ -131,13 +132,97 @@
           "url": "http://localhost:8000/pinecone"
         }
       },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "b5977c67-0afa-4191-a760-a15814477989"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "json",
+                "type": "string",
+                "values": [
+                  "${pinecone_result}"
+                ]
+              }
+            ],
+            "meta": {},
+            "name": "pinecone_result"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Tell me more about what you are looking for?",
       "type": "volkovlabs-form-panel"
     },
     {
       "datasource": {
-        "type": "testdata",
-        "uid": "ds_testdata1"
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "DS_INFINITY_POLYGON"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false,
+            "minWidth": 100
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Ticker"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "",
+                    "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker=${__data.fields.Ticker}&from=now-180d&to=now"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ANN Score"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 12,
@@ -147,26 +232,69 @@
       },
       "id": 4,
       "options": {
-        "code": {
-          "language": "html",
-          "showLineNumbers": false,
-          "showMiniMap": false
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
         },
-        "content": "<pre>${pinecone_result}</pre>",
-        "mode": "html"
+        "showHeader": true,
+        "sortBy": []
       },
-      "pluginVersion": "9.4.3",
+      "pluginVersion": "9.5.2",
       "targets": [
         {
+          "columns": [
+            {
+              "selector": "ticker",
+              "text": "Ticker",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "ANN Score",
+              "type": "string"
+            },
+            {
+              "selector": "rsi_rating",
+              "text": "RSI",
+              "type": "number"
+            },
+            {
+              "selector": "macd_rating",
+              "text": "MACD",
+              "type": "number"
+            },
+            {
+              "selector": "sma_rating",
+              "text": "SMA",
+              "type": "number"
+            }
+          ],
+          "data": "${pinecone_result}",
           "datasource": {
-            "type": "testdata",
-            "uid": "ds_testdata1"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "DS_INFINITY_POLYGON"
           },
-          "refId": "A"
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "inline",
+          "type": "json",
+          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
         }
       ],
       "title": "Recommendation Results",
-      "type": "text"
+      "type": "table"
     },
     {
       "datasource": {
@@ -431,6 +559,7 @@
       },
       "id": 6,
       "options": {
+        "cellHeight": "sm",
         "footer": {
           "countRows": false,
           "fields": "",
@@ -442,12 +571,12 @@
         "showHeader": true,
         "sortBy": [
           {
-            "desc": true,
+            "desc": false,
             "displayName": "ticker"
           }
         ]
       },
-      "pluginVersion": "9.4.3",
+      "pluginVersion": "9.5.2",
       "targets": [
         {
           "columns": [],
@@ -506,20 +635,20 @@
       {
         "current": {
           "selected": false,
-          "text": "{'score': '0.82', 'ticker': 'DFS', 'rsi_rating': 46.8, 'macd_rating': 3.0, 'sma_rating': 2.0}\n{'score': '0.81', 'ticker': 'ELV', 'rsi_rating': 39.3, 'macd_rating': 3.0, 'sma_rating': 1.0}\n{'score': '0.81', 'ticker': 'HRL', 'rsi_rating': 35.6, 'macd_rating': 1.0, 'sma_rating': 1.0}",
-          "value": "{'score': '0.82', 'ticker': 'DFS', 'rsi_rating': 46.8, 'macd_rating': 3.0, 'sma_rating': 2.0}\n{'score': '0.81', 'ticker': 'ELV', 'rsi_rating': 39.3, 'macd_rating': 3.0, 'sma_rating': 1.0}\n{'score': '0.81', 'ticker': 'HRL', 'rsi_rating': 35.6, 'macd_rating': 1.0, 'sma_rating': 1.0}"
+          "text": "[{\"score\": \"0.87\", \"ticker\": \"DAL\", \"rsi_rating\": 43.8, \"macd_rating\": 4.0, \"sma_rating\": 1.0}, {\"score\": \"0.85\", \"ticker\": \"LMT\", \"rsi_rating\": 41.5, \"macd_rating\": 3.0, \"sma_rating\": 2.0}, {\"score\": \"0.85\", \"ticker\": \"AAL\", \"rsi_rating\": 48.1, \"macd_rating\": 5.0, \"sma_rating\": 1.0}]",
+          "value": "[{\"score\": \"0.87\", \"ticker\": \"DAL\", \"rsi_rating\": 43.8, \"macd_rating\": 4.0, \"sma_rating\": 1.0}, {\"score\": \"0.85\", \"ticker\": \"LMT\", \"rsi_rating\": 41.5, \"macd_rating\": 3.0, \"sma_rating\": 2.0}, {\"score\": \"0.85\", \"ticker\": \"AAL\", \"rsi_rating\": 48.1, \"macd_rating\": 5.0, \"sma_rating\": 1.0}]"
         },
         "hide": 2,
         "label": "pinecone_result",
         "name": "pinecone_result",
         "options": [
           {
-            "selected": true,
+            "selected": false,
             "text": "",
             "value": ""
           }
         ],
-        "query": "{'score': '0.82', 'ticker': 'DFS', 'rsi_rating': 46.8, 'macd_rating': 3.0, 'sma_rating': 2.0}\n{'score': '0.81', 'ticker': 'ELV', 'rsi_rating': 39.3, 'macd_rating': 3.0, 'sma_rating': 1.0}\n{'score': '0.81', 'ticker': 'HRL', 'rsi_rating': 35.6, 'macd_rating': 1.0, 'sma_rating': 1.0}",
+        "query": "[{\"score\": \"0.87\", \"ticker\": \"DAL\", \"rsi_rating\": 43.8, \"macd_rating\": 4.0, \"sma_rating\": 1.0}, {\"score\": \"0.85\", \"ticker\": \"LMT\", \"rsi_rating\": 41.5, \"macd_rating\": 3.0, \"sma_rating\": 2.0}, {\"score\": \"0.85\", \"ticker\": \"AAL\", \"rsi_rating\": 48.1, \"macd_rating\": 5.0, \"sma_rating\": 1.0}]",
         "skipUrlSync": false,
         "type": "textbox"
       },
@@ -589,6 +718,6 @@
   "timezone": "",
   "title": "AI Based - Stock Recommender",
   "uid": "DTM0JxBVz",
-  "version": 71,
+  "version": 8,
   "weekStart": ""
 }

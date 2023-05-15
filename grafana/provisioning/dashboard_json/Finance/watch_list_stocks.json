@@ -190,8 +190,8 @@
     },
     {
       "datasource": {
-        "type": "ds_infinity1",
-        "uid": "ds_infinity1"
+        "type": "DS_INFINITY_POLYGON",
+        "uid": "DS_INFINITY_POLYGON"
       },
       "gridPos": {
         "h": 5,
@@ -226,8 +226,8 @@
     },
     {
       "datasource": {
-        "type": "ds_infinity1",
-        "uid": "ds_infinity1"
+        "type": "DS_INFINITY_POLYGON",
+        "uid": "DS_INFINITY_POLYGON"
       },
       "gridPos": {
         "h": 5,
@@ -262,8 +262,8 @@
     },
     {
       "datasource": {
-        "type": "ds_infinity1",
-        "uid": "ds_infinity1"
+        "type": "DS_INFINITY_POLYGON",
+        "uid": "DS_INFINITY_POLYGON"
       },
       "gridPos": {
         "h": 5,
@@ -313,8 +313,8 @@
     },
     {
       "datasource": {
-        "type": "ds_infinity1",
-        "uid": "ds_infinity1"
+        "type": "DS_INFINITY_POLYGON",
+        "uid": "DS_INFINITY_POLYGON"
       },
       "description": "",
       "fieldConfig": {
@@ -477,8 +477,8 @@
             }
           ],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -509,8 +509,8 @@
             }
           ],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -542,8 +542,8 @@
             }
           ],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -573,8 +573,8 @@
     },
     {
       "datasource": {
-        "type": "ds_infinity1",
-        "uid": "ds_infinity1"
+        "type": "DS_INFINITY_POLYGON",
+        "uid": "DS_INFINITY_POLYGON"
       },
       "description": "",
       "fieldConfig": {
@@ -742,8 +742,8 @@
             }
           ],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -775,8 +775,8 @@
             }
           ],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -808,8 +808,8 @@
             }
           ],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -839,8 +839,8 @@
     },
     {
       "datasource": {
-        "type": "ds_infinity1",
-        "uid": "ds_infinity1"
+        "type": "DS_INFINITY_POLYGON",
+        "uid": "DS_INFINITY_POLYGON"
       },
       "description": "",
       "fieldConfig": {
@@ -1010,8 +1010,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -1040,8 +1040,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -1070,8 +1070,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -1100,8 +1100,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -1135,8 +1135,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -1170,8 +1170,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -1205,8 +1205,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -1240,8 +1240,8 @@
           ],
           "computed_columns": [],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",
@@ -1263,7 +1263,7 @@
         {
           "datasource": {
             "type": "__expr__",
-            "uid": "ds_infinity1"
+            "uid": "DS_INFINITY_POLYGON"
           },
           "expression": "($CLOSE_WATCHLIST / $START_WATCHLIST) - 1",
           "hide": false,
@@ -1273,7 +1273,7 @@
         {
           "datasource": {
             "type": "__expr__",
-            "uid": "ds_infinity1"
+            "uid": "DS_INFINITY_POLYGON"
           },
           "expression": "($CLOSE_SPY / $START_SPY) - 1",
           "hide": false,
@@ -1283,7 +1283,7 @@
         {
           "datasource": {
             "type": "__expr__",
-            "uid": "ds_infinity1"
+            "uid": "DS_INFINITY_POLYGON"
           },
           "expression": "($CLOSE_QQQ / $START_QQQ) - 1",
           "hide": false,
@@ -1293,7 +1293,7 @@
         {
           "datasource": {
             "type": "__expr__",
-            "uid": "ds_infinity1"
+            "uid": "DS_INFINITY_POLYGON"
           },
           "expression": "($CLOSE_DIA / $START_DIA) - 1",
           "hide": false,
@@ -1307,8 +1307,8 @@
     },
     {
       "datasource": {
-        "type": "ds_infinity1",
-        "uid": "ds_infinity1"
+        "type": "DS_INFINITY_POLYGON",
+        "uid": "DS_INFINITY_POLYGON"
       },
       "fieldConfig": {
         "defaults": {
@@ -1404,8 +1404,8 @@
             }
           ],
           "datasource": {
-            "type": "ds_infinity1",
-            "uid": "ds_infinity1"
+            "type": "DS_INFINITY_POLYGON",
+            "uid": "DS_INFINITY_POLYGON"
           },
           "filters": [],
           "format": "table",

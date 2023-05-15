@@ -6,6 +6,7 @@ from logfmter import Logfmter
 from dotenv import load_dotenv
 import os
 import logging
+import json
 from prometheus_flask_exporter import PrometheusMetrics
 import ticker_analytics, pinecone_analytics
 from multiprocessing import Process
@@ -124,8 +125,12 @@ def pinecone():
                                                            max_macd_rating=max_macd_rating,
                                                            max_sma_rating=max_sma_rating)
         data['status'] = "OK"
-        data['result'] = '\n'.join([str(item) for item in pinecone_results])
-        return jsonify(data), 200
+        #data['result'] = '\n'.join([str(item) for item in pinecone_results])
+
+        data['result'] = json.dumps(pinecone_results)
+        result_json = jsonify(data)
+        logging.info(f"pinecone query in json: {data}")
+        return result_json, 200
     except BaseException as be:
         data['result'] = f"{be}"
         data['status'] = "ERROR"

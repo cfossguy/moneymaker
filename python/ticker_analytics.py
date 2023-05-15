@@ -190,7 +190,8 @@ def get_news(ticker):
             title = n.title
             description = n.description
             date = n.published_utc
-            summary = f"title={title}. summary={description}"
+            summary = f"{title}\n\n" \
+                      f"{description}\n"
             newsfeed.append(summary)
         feed_details = '\n'.join([str(item) for item in newsfeed])
         logging.info(f'News for {ticker} is: {feed_details}')
