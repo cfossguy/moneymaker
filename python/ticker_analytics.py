@@ -183,9 +183,9 @@ def get_pe(ticker):
 def get_news(ticker):
     feed_details = str()
     try:
-        news = client.list_ticker_news(ticker=f'{ticker}', limit=10)
+        news = client.list_ticker_news(ticker=f'{ticker}', limit=100)
         newsfeed = []
-        while len(newsfeed) < 10:
+        while len(newsfeed) < 100:
             n = next(news)
             title = n.title
             description = n.description
@@ -267,4 +267,6 @@ def delete_ticker_from_watchlist(ticker, kind):
         result = f"DB delete error: {ie}"
         logging.error(result)
         raise ie
+
+
 
