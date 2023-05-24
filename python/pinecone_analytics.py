@@ -80,7 +80,7 @@ def get_news_embeddings_dense(tickers_list):
         except ValueError:
             logging.error(f"no PE rating for {ticker_details['ticker']}")
 
-        news_tags = f"#ticker:{ticker_details['ticker']} #name:{ticker_details['name'].lower()} #industry:{ticker_details['industry'].lower()} #sector:{ticker_details['sector'].lower()} #beta:{beta_rating}, #pe:{pe_rating}"
+        news_tags = f"ticker {ticker_details['ticker']} name {ticker_details['name'].lower()} industry {ticker_details['industry'].lower()} sector {ticker_details['sector'].lower()} beta {beta_rating} pe {pe_rating}"
 
         news_tokens = enc.encode(news_tags + "\n" + ticker_details['news'])[:8191]
         embedding_list.append(news_tokens)
@@ -107,7 +107,7 @@ def pinecone_query(prompt, max_rsi_rating, max_macd_rating, max_sma_rating):
     values = []
     for match in res['matches']:
         value = {
-            "score": f"{match['score']:.2f}",
+            "score": f"{match['score']}",
             "ticker": match['metadata']['ticker'],
             "rsi_rating": match['metadata']['rsi_rating'],
             "macd_rating": match['metadata']['macd_rating'],

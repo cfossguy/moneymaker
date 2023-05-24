@@ -48,15 +48,15 @@
         "elements": [
           {
             "id": "text_prompt",
-            "labelWidth": 5,
+            "labelWidth": 1,
             "rows": 10,
             "section": "",
             "title": "",
             "tooltip": "",
             "type": "textarea",
             "unit": "",
-            "value": "#industry:airlines #sector:industrials",
-            "width": 88
+            "value": "A stock in the airline industry like DAL",
+            "width": 0
           },
           {
             "id": "rsi_max",
@@ -219,6 +219,20 @@
               {
                 "id": "unit",
                 "value": "percentunit"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#050101",
+                  "mode": "fixed"
+                }
               }
             ]
           }
@@ -297,330 +311,344 @@
       "type": "table"
     },
     {
-      "datasource": {
-        "type": "postgres",
-        "uid": "ds_postgres_moneymaker"
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 12
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
+      "id": 7,
+      "panels": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "ds_postgres_moneymaker"
           },
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "filterable": true,
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "RSI"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 70
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
               },
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    },
-                    {
-                      "color": "dark-green",
-                      "value": 40
-                    },
-                    {
-                      "color": "#EAB839",
-                      "value": 50
-                    },
-                    {
-                      "color": "red",
-                      "value": 60
-                    }
-                  ]
-                }
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "filterable": true,
+                "inspect": false
               },
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "mode": "basic",
-                  "type": "color-background"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "SMA"
-            },
-            "properties": [
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    },
-                    {
-                      "color": "dark-green",
-                      "value": 1
-                    },
-                    {
-                      "color": "#EAB839",
-                      "value": 3
-                    },
-                    {
-                      "color": "dark-red",
-                      "value": 5
-                    }
-                  ]
-                }
-              },
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "mode": "basic",
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "custom.width",
-                "value": 68
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "ticker"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 74
-              },
-              {
-                "id": "links",
-                "value": [
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
                   {
-                    "targetBlank": true,
-                    "title": "Triple Screen",
-                    "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker=${__data.fields.ticker}&from=now-180d&to=now"
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "RSI"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 70
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": null
+                        },
+                        {
+                          "color": "dark-green",
+                          "value": 40
+                        },
+                        {
+                          "color": "#EAB839",
+                          "value": 50
+                        },
+                        {
+                          "color": "red",
+                          "value": 60
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "mode": "basic",
+                      "type": "color-background"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "SMA"
+                },
+                "properties": [
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": null
+                        },
+                        {
+                          "color": "dark-green",
+                          "value": 1
+                        },
+                        {
+                          "color": "#EAB839",
+                          "value": 3
+                        },
+                        {
+                          "color": "dark-red",
+                          "value": 5
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "mode": "basic",
+                      "type": "color-background"
+                    }
+                  },
+                  {
+                    "id": "custom.width",
+                    "value": 68
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "ticker"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 74
+                  },
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "targetBlank": true,
+                        "title": "Triple Screen",
+                        "url": "http://localhost:3000/d/9sDb825Vk/triple-screen-dashboard?orgId=1&refresh=1m&var-ticker=${__data.fields.ticker}&from=now-180d&to=now"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "beta"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 63
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "dividend_yield"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 91
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "name"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 200
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "sector"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 180
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "MACD"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 80
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": null
+                        },
+                        {
+                          "color": "dark-green",
+                          "value": 1
+                        },
+                        {
+                          "color": "#EAB839",
+                          "value": 3
+                        },
+                        {
+                          "color": "red",
+                          "value": 5
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "mode": "basic",
+                      "type": "color-background"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "pe"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 30
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "industry"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 334
                   }
                 ]
               }
             ]
           },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "beta"
+          "gridPos": {
+            "h": 12,
+            "w": 19,
+            "x": 0,
+            "y": 13
+          },
+          "id": 6,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
             },
-            "properties": [
+            "showHeader": true,
+            "sortBy": [
               {
-                "id": "custom.width",
-                "value": 63
+                "desc": false,
+                "displayName": "ticker"
               }
             ]
           },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "dividend_yield"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 91
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "name"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 200
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "sector"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 180
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "MACD"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 80
+          "pluginVersion": "9.5.2",
+          "targets": [
+            {
+              "columns": [],
+              "datasource": {
+                "type": "postgres",
+                "uid": "ds_postgres_moneymaker"
               },
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
+              "editorMode": "code",
+              "filters": [],
+              "format": "table",
+              "global_query_id": "",
+              "hide": false,
+              "rawQuery": true,
+              "rawSql": "select rsi_rating as \"RSI\", sma_rating as \"SMA\", macd_rating as \"MACD\", ticker, name, sector, industry, beta, pe\nfrom stocks\nwhere industry \nIN ($industry) AND sector IN ($sector)",
+              "refId": "A",
+              "root_selector": "",
+              "source": "url",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
                     },
-                    {
-                      "color": "dark-green",
-                      "value": 1
-                    },
-                    {
-                      "color": "#EAB839",
-                      "value": 3
-                    },
-                    {
-                      "color": "red",
-                      "value": 5
-                    }
-                  ]
-                }
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
               },
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "mode": "basic",
-                  "type": "color-background"
-                }
+              "type": "json",
+              "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
+              "url_options": {
+                "data": "",
+                "method": "GET"
               }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "pe"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 30
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "industry"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 334
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 12,
-        "w": 19,
-        "x": 0,
-        "y": 12
-      },
-      "id": 6,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
+            }
           ],
-          "show": false
-        },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": false,
-            "displayName": "ticker"
-          }
-        ]
-      },
-      "pluginVersion": "9.5.2",
-      "targets": [
-        {
-          "columns": [],
-          "datasource": {
-            "type": "postgres",
-            "uid": "ds_postgres_moneymaker"
-          },
-          "editorMode": "code",
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "hide": false,
-          "rawQuery": true,
-          "rawSql": "select rsi_rating as \"RSI\", sma_rating as \"SMA\", macd_rating as \"MACD\", ticker, name, sector, industry, beta, pe\nfrom stocks\nwhere industry \nIN ($industry) AND sector IN ($sector)",
-          "refId": "A",
-          "root_selector": "",
-          "source": "url",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          },
-          "type": "json",
-          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "type": "table"
         }
       ],
-      "title": "Ticker Screener",
-      "type": "table"
+      "title": "Recommendation Checker",
+      "type": "row"
     }
   ],
   "refresh": "",
@@ -635,8 +663,8 @@
       {
         "current": {
           "selected": false,
-          "text": "[{\"score\": \"0.81\", \"ticker\": \"GEN\", \"rsi_rating\": 50.9, \"macd_rating\": 5.0, \"sma_rating\": 1.0}, {\"score\": \"0.81\", \"ticker\": \"L\", \"rsi_rating\": 48.7, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.80\", \"ticker\": \"GL\", \"rsi_rating\": 43.7, \"macd_rating\": 4.0, \"sma_rating\": 1.0}, {\"score\": \"0.80\", \"ticker\": \"BALL\", \"rsi_rating\": 44.8, \"macd_rating\": 1.0, \"sma_rating\": 5.0}, {\"score\": \"0.79\", \"ticker\": \"VRSN\", \"rsi_rating\": 66.9, \"macd_rating\": 3.0, \"sma_rating\": 5.0}, {\"score\": \"0.79\", \"ticker\": \"EVRG\", \"rsi_rating\": 41.0, \"macd_rating\": 4.0, \"sma_rating\": 1.0}, {\"score\": \"0.78\", \"ticker\": \"CEG\", \"rsi_rating\": 61.9, \"macd_rating\": 2.0, \"sma_rating\": 5.0}, {\"score\": \"0.78\", \"ticker\": \"GEHC\", \"rsi_rating\": 58.4, \"macd_rating\": -1.0, \"sma_rating\": 0.0}, {\"score\": \"0.77\", \"ticker\": \"NWS\", \"rsi_rating\": 52.7, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.77\", \"ticker\": \"OGN\", \"rsi_rating\": 32.8, \"macd_rating\": 2.0, \"sma_rating\": 1.0}]",
-          "value": "[{\"score\": \"0.81\", \"ticker\": \"GEN\", \"rsi_rating\": 50.9, \"macd_rating\": 5.0, \"sma_rating\": 1.0}, {\"score\": \"0.81\", \"ticker\": \"L\", \"rsi_rating\": 48.7, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.80\", \"ticker\": \"GL\", \"rsi_rating\": 43.7, \"macd_rating\": 4.0, \"sma_rating\": 1.0}, {\"score\": \"0.80\", \"ticker\": \"BALL\", \"rsi_rating\": 44.8, \"macd_rating\": 1.0, \"sma_rating\": 5.0}, {\"score\": \"0.79\", \"ticker\": \"VRSN\", \"rsi_rating\": 66.9, \"macd_rating\": 3.0, \"sma_rating\": 5.0}, {\"score\": \"0.79\", \"ticker\": \"EVRG\", \"rsi_rating\": 41.0, \"macd_rating\": 4.0, \"sma_rating\": 1.0}, {\"score\": \"0.78\", \"ticker\": \"CEG\", \"rsi_rating\": 61.9, \"macd_rating\": 2.0, \"sma_rating\": 5.0}, {\"score\": \"0.78\", \"ticker\": \"GEHC\", \"rsi_rating\": 58.4, \"macd_rating\": -1.0, \"sma_rating\": 0.0}, {\"score\": \"0.77\", \"ticker\": \"NWS\", \"rsi_rating\": 52.7, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.77\", \"ticker\": \"OGN\", \"rsi_rating\": 32.8, \"macd_rating\": 2.0, \"sma_rating\": 1.0}]"
+          "text": "[{\"score\": \"0.885829747\", \"ticker\": \"DAL\", \"rsi_rating\": 52.2, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.853230536\", \"ticker\": \"UAL\", \"rsi_rating\": 55.1, \"macd_rating\": 3.0, \"sma_rating\": 5.0}, {\"score\": \"0.853214145\", \"ticker\": \"AAL\", \"rsi_rating\": 49.3, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.842916608\", \"ticker\": \"BA\", \"rsi_rating\": 53.5, \"macd_rating\": 1.0, \"sma_rating\": 1.0}, {\"score\": \"0.841095865\", \"ticker\": \"ALK\", \"rsi_rating\": 53.6, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.830353677\", \"ticker\": \"LUV\", \"rsi_rating\": 39.6, \"macd_rating\": 1.0, \"sma_rating\": 1.0}, {\"score\": \"0.825540364\", \"ticker\": \"EXPE\", \"rsi_rating\": 51.1, \"macd_rating\": 1.0, \"sma_rating\": 4.0}, {\"score\": \"0.822001934\", \"ticker\": \"DE\", \"rsi_rating\": 39.2, \"macd_rating\": 1.0, \"sma_rating\": 1.0}, {\"score\": \"0.821056366\", \"ticker\": \"FDX\", \"rsi_rating\": 58.4, \"macd_rating\": 3.0, \"sma_rating\": 5.0}, {\"score\": \"0.813882113\", \"ticker\": \"WFC\", \"rsi_rating\": 53.6, \"macd_rating\": 3.0, \"sma_rating\": 4.0}]",
+          "value": "[{\"score\": \"0.885829747\", \"ticker\": \"DAL\", \"rsi_rating\": 52.2, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.853230536\", \"ticker\": \"UAL\", \"rsi_rating\": 55.1, \"macd_rating\": 3.0, \"sma_rating\": 5.0}, {\"score\": \"0.853214145\", \"ticker\": \"AAL\", \"rsi_rating\": 49.3, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.842916608\", \"ticker\": \"BA\", \"rsi_rating\": 53.5, \"macd_rating\": 1.0, \"sma_rating\": 1.0}, {\"score\": \"0.841095865\", \"ticker\": \"ALK\", \"rsi_rating\": 53.6, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.830353677\", \"ticker\": \"LUV\", \"rsi_rating\": 39.6, \"macd_rating\": 1.0, \"sma_rating\": 1.0}, {\"score\": \"0.825540364\", \"ticker\": \"EXPE\", \"rsi_rating\": 51.1, \"macd_rating\": 1.0, \"sma_rating\": 4.0}, {\"score\": \"0.822001934\", \"ticker\": \"DE\", \"rsi_rating\": 39.2, \"macd_rating\": 1.0, \"sma_rating\": 1.0}, {\"score\": \"0.821056366\", \"ticker\": \"FDX\", \"rsi_rating\": 58.4, \"macd_rating\": 3.0, \"sma_rating\": 5.0}, {\"score\": \"0.813882113\", \"ticker\": \"WFC\", \"rsi_rating\": 53.6, \"macd_rating\": 3.0, \"sma_rating\": 4.0}]"
         },
         "hide": 2,
         "label": "pinecone_result",
@@ -648,7 +676,7 @@
             "value": ""
           }
         ],
-        "query": "[{\"score\": \"0.81\", \"ticker\": \"GEN\", \"rsi_rating\": 50.9, \"macd_rating\": 5.0, \"sma_rating\": 1.0}, {\"score\": \"0.81\", \"ticker\": \"L\", \"rsi_rating\": 48.7, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.80\", \"ticker\": \"GL\", \"rsi_rating\": 43.7, \"macd_rating\": 4.0, \"sma_rating\": 1.0}, {\"score\": \"0.80\", \"ticker\": \"BALL\", \"rsi_rating\": 44.8, \"macd_rating\": 1.0, \"sma_rating\": 5.0}, {\"score\": \"0.79\", \"ticker\": \"VRSN\", \"rsi_rating\": 66.9, \"macd_rating\": 3.0, \"sma_rating\": 5.0}, {\"score\": \"0.79\", \"ticker\": \"EVRG\", \"rsi_rating\": 41.0, \"macd_rating\": 4.0, \"sma_rating\": 1.0}, {\"score\": \"0.78\", \"ticker\": \"CEG\", \"rsi_rating\": 61.9, \"macd_rating\": 2.0, \"sma_rating\": 5.0}, {\"score\": \"0.78\", \"ticker\": \"GEHC\", \"rsi_rating\": 58.4, \"macd_rating\": -1.0, \"sma_rating\": 0.0}, {\"score\": \"0.77\", \"ticker\": \"NWS\", \"rsi_rating\": 52.7, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.77\", \"ticker\": \"OGN\", \"rsi_rating\": 32.8, \"macd_rating\": 2.0, \"sma_rating\": 1.0}]",
+        "query": "[{\"score\": \"0.885829747\", \"ticker\": \"DAL\", \"rsi_rating\": 52.2, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.853230536\", \"ticker\": \"UAL\", \"rsi_rating\": 55.1, \"macd_rating\": 3.0, \"sma_rating\": 5.0}, {\"score\": \"0.853214145\", \"ticker\": \"AAL\", \"rsi_rating\": 49.3, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.842916608\", \"ticker\": \"BA\", \"rsi_rating\": 53.5, \"macd_rating\": 1.0, \"sma_rating\": 1.0}, {\"score\": \"0.841095865\", \"ticker\": \"ALK\", \"rsi_rating\": 53.6, \"macd_rating\": 3.0, \"sma_rating\": 4.0}, {\"score\": \"0.830353677\", \"ticker\": \"LUV\", \"rsi_rating\": 39.6, \"macd_rating\": 1.0, \"sma_rating\": 1.0}, {\"score\": \"0.825540364\", \"ticker\": \"EXPE\", \"rsi_rating\": 51.1, \"macd_rating\": 1.0, \"sma_rating\": 4.0}, {\"score\": \"0.822001934\", \"ticker\": \"DE\", \"rsi_rating\": 39.2, \"macd_rating\": 1.0, \"sma_rating\": 1.0}, {\"score\": \"0.821056366\", \"ticker\": \"FDX\", \"rsi_rating\": 58.4, \"macd_rating\": 3.0, \"sma_rating\": 5.0}, {\"score\": \"0.813882113\", \"ticker\": \"WFC\", \"rsi_rating\": 53.6, \"macd_rating\": 3.0, \"sma_rating\": 4.0}]",
         "skipUrlSync": false,
         "type": "textbox"
       },
@@ -718,6 +746,6 @@
   "timezone": "",
   "title": "AI Based - Stock Recommender",
   "uid": "DTM0JxBVz",
-  "version": 9,
+  "version": 10,
   "weekStart": ""
 }
