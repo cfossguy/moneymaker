@@ -1,3 +1,5 @@
+import math
+
 import openai
 import pinecone
 import pandas as pd
@@ -8,6 +10,7 @@ import time
 
 from logfmter import Logfmter
 from dotenv import load_dotenv
+from openai import APIError
 
 import tiktoken
 
@@ -38,7 +41,7 @@ def stock_universe_pinecone_import():
                                          columns=None, chunksize=None).to_dict(orient='records')
         index_id = 0
         start = time.time()
-        for tickers_chunk in chunks(tickers_list, batch_size=50):
+        for tickers_chunk in chunks(tickers_list, batch_size=10):
             vector_list = []
             embeddings = get_news_embeddings_dense(tickers_chunk)
             chunk_index = 0
@@ -47,7 +50,10 @@ def stock_universe_pinecone_import():
                         "rsi_rating": ticker_details['rsi_rating'],
                         "sma_rating": ticker_details['sma_rating'],
                         "macd_rating": ticker_details['macd_rating']}
-                vector_list.append(tuple([str(index_id), embeddings['data'][chunk_index]['embedding'], meta]))
+                if math.isnan(embeddings['data'][chunk_index]['embedding'][0]):
+                    logging.warning(f"Ticker {ticker_details['ticker']} does not have matching embedding")
+                else:
+                    vector_list.append(tuple([str(index_id), embeddings['data'][chunk_index]['embedding'], meta]))
                 index_id = index_id + 1
                 chunk_index = chunk_index + 1
             logging.info(f"OpenAI embedding batch processed: {index_id} of {len(tickers_list)} tickers processed")
@@ -85,8 +91,14 @@ def get_news_embeddings_dense(tickers_list):
         news_tokens = enc.encode(news_tags + "\n" + ticker_details['news'])[:8191]
         embedding_list.append(news_tokens)
     logging.info(f"encoding complete for: {tickers_list[0]['ticker']} to {tickers_list[-1]['ticker']}")
-    openai_embeddings = openai.Embedding.create(input=embedding_list, engine=model)
 
+    for i in range(10):
+        try:
+            openai_embeddings = openai.Embedding.create(input=embedding_list, engine=model)
+        except APIError:
+            logging.error(f"OpenAI error on try {i+1}")
+        else:
+            break
     return openai_embeddings
 
 def chunks(iterable, batch_size=100):

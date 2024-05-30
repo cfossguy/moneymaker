@@ -61,7 +61,7 @@
       "title": "Company Profile",
       "tooltip": "",
       "type": "link",
-      "url": "https://invest.ameritrade.com/grid/p/site#r=jPage/https://research.ameritrade.com/grid/wwws/research/stocks/summary?c_name=invest_VENDOR&symbol=$ticker"
+      "url": "https://client.schwab.com/app/research/#/stocks/$ticker"
     }
   ],
   "liveNow": false,
@@ -870,7 +870,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
           "columns": [
@@ -1100,7 +1100,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
           "columns": [
@@ -1311,7 +1311,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
           "columns": [
@@ -1522,7 +1522,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
           "columns": [
@@ -2336,7 +2336,7 @@
         "name": "ticker",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "SPY",
             "value": "SPY"
           },
@@ -2366,6 +2366,6 @@
   "timezone": "",
   "title": "Triple Screen Dashboard",
   "uid": "9sDb825Vk",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }

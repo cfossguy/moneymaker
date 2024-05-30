@@ -6,10 +6,14 @@ from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 import os
 from polygon import RESTClient
+import yfinance as yf
 from sqlalchemy.exc import IntegrityError
 from scipy.stats import linregress
 from pandarallel import pandarallel
 import time
+import random
+import json
+import copy
 
 formatter = Logfmter(keys=["ts", "level"],mapping={"ts": "asctime", "level": "levelname"})
 
@@ -26,11 +30,13 @@ use_small_dataset = False
 
 def stock_universe_xls_import():
     start = time.time()
+    url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
+    tables = pd.read_html(url)
+    stocks_frame = tables[0]  # The first table on the page is the S&P 500 list
+    stocks_frame = stocks_frame.rename(columns={'Symbol': 'ticker', 'Security': 'name', 'GICS Sector': 'sector', 'GICS Sub-Industry': 'industry'})
     if use_small_dataset:
-        stocks_frame = pd.read_excel('stock_universe.xlsx', sheet_name="TDA_SCREEN_SMALL")
-    else:
-        stocks_frame = pd.read_excel('stock_universe.xlsx', sheet_name="TDA_SCREEN")
-
+        stocks_frame = stocks_frame.head(10)
+   
     pandarallel.initialize(progress_bar=False)
 
     stocks_frame['rsi_rating'] = stocks_frame.parallel_apply(lambda row: get_rsi_rating(row.ticker.strip()), axis=1)
@@ -39,23 +45,58 @@ def stock_universe_xls_import():
     stocks_frame['sma_rating'] = stocks_frame.parallel_apply(lambda row: get_sma_rating(row.ticker.strip()), axis=1)
     logging.info("sma_rating column added for all tickers")
 
-    stocks_frame['market_cap'] = stocks_frame.parallel_apply(lambda row: fix_market_cap(row.market_cap), axis=1)
-    stocks_frame['dividend_yield'] = stocks_frame.parallel_apply(lambda row: fix_dividend_yield(row.dividend_yield), axis=1)
+    stocks_frame['market_cap'] = stocks_frame.parallel_apply(lambda row: get_market_cap(row.ticker.strip()), axis=1)
+    logging.info("market_cap column added for all tickers")
+
+    stocks_frame['dividend_yield'] = stocks_frame.parallel_apply(lambda row: get_dividend_yield(row.ticker.strip()), axis=1)
+    logging.info("dividend_yield column added for all tickers")
+
+    stocks_frame['beta'] = stocks_frame.parallel_apply(lambda row: get_beta(row.ticker.strip()), axis=1)
+    logging.info("beta column added for all tickers")
 
     stocks_frame['pe'] = stocks_frame.parallel_apply(lambda row: get_pe(row.ticker.strip()), axis=1)
+    logging.info("pe column added for all tickers")
 
     stocks_frame['macd_rating'] = stocks_frame.parallel_apply(lambda row: get_macd_rating(row.ticker.strip()), axis=1)
+    logging.info("macd_rating column added for all tickers")
 
-    stocks_frame[['rsi_rating', 'sma_rating', 'market_cap', 'dividend_yield', 'pe', 'macd_rating']].parallel_apply(pd.to_numeric)
+    stocks_frame[['rsi_rating', 'sma_rating', 'market_cap', 'dividend_yield', 'pe', 'beta', 'macd_rating']].parallel_apply(pd.to_numeric)
 
     stocks_frame['news'] = stocks_frame.parallel_apply(lambda row: get_news(row.ticker.strip()), axis=1)
+    logging.info("news column added for all tickers")
 
     db = create_engine(conn_string)
 
     with db.begin() as conn:
         stocks_frame.to_sql('stocks', con=conn, if_exists='replace', index=False)
+
+    # stocks_frame.to_json('genai-data.jsonl', orient='records', lines=True)
     end = time.time()
     logging.info(f'stock universe records loaded from excel to DB in {end - start} seconds')
+
+def stock_news_only():
+    start = time.time()
+    url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
+    tables = pd.read_html(url)
+    stocks_frame = tables[0]  # The first table on the page is the S&P 500 list
+    stocks_frame = stocks_frame.rename(columns={'Symbol': 'ticker', 'Security': 'name', 'GICS Sector': 'sector', 'GICS Sub-Industry': 'industry'})
+    
+    for index, row in stocks_frame.iterrows():
+        data = {
+            'ticker': row['ticker'].strip(),
+            'name': row['name'],
+            'sector': row['sector'],
+            'industry': row['industry']
+        }
+        news = get_news2(data)
+        # Write the JSON string to a file
+        with open('stock-news.jsonl', 'a') as f:
+            for n in news:
+                json_str = json.dumps(n)
+                f.write(json_str + '\n')
+           
+    end = time.time()
+    logging.info(f'stock universe records loaded to jsonl in {end - start} seconds')
 
 def watchlist_xls_import():
     watchlist_frame = pd.read_excel('stock_universe.xlsx', sheet_name="WATCHLIST")
@@ -189,10 +230,13 @@ def get_news(ticker):
             n = next(news)
             title = n.title
             description = n.description
+        
             date = n.published_utc
-            summary = f"{title}\n\n" \
-                      f"{description}\n"
+            summary = f"title: {title}\n" \
+                      f"description: {description}\n" \
+                      
             newsfeed.append(summary)
+            
         feed_details = '\n'.join([str(item) for item in newsfeed])
         logging.info(f'News for {ticker} is: {feed_details}')
 
@@ -204,30 +248,62 @@ def get_news(ticker):
     except BaseException as x:
         logging.error(f'News for {ticker} has error - {x}. Unknown error polygon.io')
         return feed_details
+    
+def get_news2(data):
+    try:
+        article_count = 100
+        news = client.list_ticker_news(ticker=f'{data["ticker"]}', limit=article_count)
+        newsfeed = []
+        while len(newsfeed) < article_count:
+            data_copy = copy.deepcopy(data)
+            n = next(news)
+            data_copy['title'] = n.title
+            data_copy['description'] = n.description
+            data_copy['source'] = n.article_url
+            data_copy['date'] = n.published_utc
+            newsfeed.append(data_copy)
+        logging.info(f'News for {data_copy["ticker"]} appended to newsfeed')
+        return newsfeed
+    except IndexError as e:
+        logging.error(f'News for {data["ticker"]} has error - {e}. May not have data in polygon.io')
+        return newsfeed
+    except BaseException as x:
+        logging.error(f'News for {data["ticker"]} has error - {x}. Unknown error polygon.io')
+        return newsfeed
 
+def get_market_cap(ticker):
+    market_cap_in_billion = 0
+    try:
+        time.sleep(random.uniform(.01, .5)) 
+        ticker_data = yf.Ticker(ticker)
+        market_cap = ticker_data.info['marketCap'] 
+        market_cap_in_billion = round(market_cap / 1_000_000_000, 2)
+        logging.info(f'market cap for {ticker} is: {market_cap_in_billion}')
+    except KeyError:
+        logging.info(f'market cap {ticker} is: N/A')
+    return market_cap_in_billion 
 
-def fix_market_cap(market_cap):
-    #returns market cap in millions
-    market_cap = market_cap.replace('$', '')
-    market_cap_float = 0.0
-    if market_cap.endswith('B'):
-        market_cap = market_cap.replace('B', '')
-        market_cap_float = float(market_cap) * 1000
-    elif market_cap.endswith('T'):
-        market_cap = market_cap.replace('T', '')
-        market_cap_float = float(market_cap) * 1000000
-    elif market_cap.endswith('M'):
-        market_cap = market_cap.replace('M', '')
-        market_cap_float = float(market_cap)
-    return round(market_cap_float, 1)
+def get_beta(ticker):
+    beta = 0
+    try:
+        time.sleep(random.uniform(.01, .5)) 
+        ticker_data = yf.Ticker(ticker)
+        beta = ticker_data.info['beta'] 
+        logging.info(f'beta for {ticker} is: {beta}')
+    except KeyError:
+        logging.info(f'beta {ticker} is: N/A')
+    return beta 
 
-def fix_dividend_yield(dividend_yield):
-    #converts dividend yield into a percentage
-    dividend_yield_str = str(dividend_yield)
-    if dividend_yield_str.startswith('--'):
-        return 0.00
-    dividend_yield = float(dividend_yield_str) * 100
-    return round(dividend_yield, 4)
+def get_dividend_yield(ticker):
+    dividend_yield = 0
+    time.sleep(random.uniform(.01, .5))
+    try:
+        ticker_data = yf.Ticker(ticker)
+        dividend_yield = ticker_data.info['dividendYield']
+        logging.info(f'dividend yield {ticker} is: {dividend_yield}')
+    except (KeyError, TypeError):
+        logging.info(f'dividend yield {ticker} is: N/A b/c of KeyError or TypeError')
+    return round(dividend_yield * 100, 2)
 
 def stock_universe_drop():
     db = create_engine(conn_string)
@@ -267,6 +343,11 @@ def delete_ticker_from_watchlist(ticker, kind):
         result = f"DB delete error: {ie}"
         logging.error(result)
         raise ie
+    
+if __name__ == "__main__":
+    stock_universe_xls_import()
+    #stock_news_only()
+
 
 
 

@@ -73,6 +73,18 @@
           "orientation": "left",
           "size": "sm"
         },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "elements": [
           {
             "id": "ticker",
@@ -129,13 +141,17 @@
         "initial": {
           "code": "console.log(data, response, initial, elements)",
           "contentType": "application/json",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "header": [],
           "highlight": false,
           "highlightColor": "red",
           "method": "-",
+          "payloadMode": "all",
           "url": "http://localhost:8000/"
         },
         "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
           "variant": "single"
         },
         "reset": {
@@ -145,6 +161,17 @@
           "text": "Reset",
           "variant": "hidden"
         },
+        "resetAction": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial"
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
         "submit": {
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
@@ -152,216 +179,21 @@
           "text": "Submit",
           "variant": "primary"
         },
+        "sync": true,
         "update": {
           "code": "if (response && response.ok) {\n  response.json().then((resp) => {\n    notifySuccess([\"Update\", resp[\"result\"]]);\n    initialRequest();\n  });\n} else {\n  response.json().then((resp) => {\n    notifyError([\"Error\", resp[\"result\"]]);\n    initialRequest();\n  });\n}",
           "confirm": false,
           "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "header": [],
           "method": "POST",
-          "updatedOnly": false,
+          "payloadMode": "all",
           "url": "http://localhost:8000/watchlist"
         }
       },
+      "pluginVersion": "3.6.0",
       "title": "Watch List",
       "type": "volkovlabs-form-panel"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "ds_postgres_moneymaker"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "RSI"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 25
-              },
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    },
-                    {
-                      "color": "dark-green",
-                      "value": 40
-                    },
-                    {
-                      "color": "#EAB839",
-                      "value": 50
-                    },
-                    {
-                      "color": "red",
-                      "value": 60
-                    }
-                  ]
-                }
-              },
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "mode": "basic",
-                  "type": "color-background"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "SMA"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 25
-              },
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    },
-                    {
-                      "color": "dark-green",
-                      "value": 1
-                    },
-                    {
-                      "color": "#EAB839",
-                      "value": 3
-                    },
-                    {
-                      "color": "dark-red",
-                      "value": 5
-                    }
-                  ]
-                }
-              },
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "mode": "basic",
-                  "type": "color-background"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Sector"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 180
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 27,
-        "w": 8,
-        "x": 0,
-        "y": 6
-      },
-      "id": 3,
-      "options": {
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "rsi_rating_avg"
-          }
-        ]
-      },
-      "pluginVersion": "9.4.3",
-      "targets": [
-        {
-          "columns": [],
-          "datasource": {
-            "type": "postgres",
-            "uid": "ds_postgres_moneymaker"
-          },
-          "editorMode": "code",
-          "filters": [],
-          "format": "table",
-          "global_query_id": "",
-          "rawQuery": true,
-          "rawSql": "select avg(rsi_rating) as \"RSI\", avg(sma_rating) as \"SMA\", sector as \"Sector\", industry as \"Industry\"\nfrom stocks \nwhere industry IN ($industry) AND sector IN ($sector)\ngroup by sector, industry\norder by \"RSI\" desc, \"SMA\" asc; ",
-          "refId": "A",
-          "root_selector": "",
-          "source": "url",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          },
-          "type": "json",
-          "url": "https://github.com/yesoreyeram/grafana-infinity-datasource/blob/main/testdata/users.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        }
-      ],
-      "title": "Industry Screen",
-      "type": "table"
     },
     {
       "datasource": {
@@ -390,7 +222,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": [
           {
@@ -612,20 +445,45 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 334
+                "value": 323
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RSI_Industry"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SMA_Industry"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 130
               }
             ]
           }
         ]
       },
       "gridPos": {
-        "h": 15,
-        "w": 15,
-        "x": 8,
+        "h": 14,
+        "w": 23,
+        "x": 0,
         "y": 6
       },
       "id": 5,
       "options": {
+        "cellHeight": "sm",
         "footer": {
           "countRows": false,
           "fields": "",
@@ -634,10 +492,16 @@
           ],
           "show": false
         },
+        "frameIndex": 1,
         "showHeader": true,
-        "sortBy": []
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "ticker"
+          }
+        ]
       },
-      "pluginVersion": "9.4.3",
+      "pluginVersion": "10.3.1",
       "targets": [
         {
           "columns": [],
@@ -678,14 +542,89 @@
             "data": "",
             "method": "GET"
           }
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "ds_postgres_moneymaker"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "select avg(rsi_rating) as \"RSI_Industry\", avg(sma_rating) as \"SMA_Industry\", industry \nfrom stocks \nwhere industry IN ($industry)\ngroup by industry\norder by \"RSI_Industry\" desc, \"SMA_Industry\" asc; ",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
         }
       ],
       "title": "Ticker Screener",
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "industry",
+            "mode": "outerTabular"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "MACD": 6,
+              "RSI": 4,
+              "RSI_Industry": 2,
+              "SMA": 5,
+              "SMA_Industry": 3,
+              "beta": 9,
+              "dividend_yield": 10,
+              "industry": 1,
+              "name": 8,
+              "pe": 11,
+              "sector": 0,
+              "ticker": 7
+            },
+            "renameByName": {}
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "isNull",
+                  "options": {}
+                },
+                "fieldName": "ticker"
+              }
+            ],
+            "match": "all",
+            "type": "exclude"
+          }
+        }
+      ],
       "type": "table"
     },
     {
       "datasource": {
-        "type": "postgres",
+        "type": "grafana-postgresql-datasource",
         "uid": "ds_postgres_moneymaker"
       },
       "fieldConfig": {
@@ -710,7 +649,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": [
           {
@@ -795,7 +735,7 @@
               },
               {
                 "id": "custom.width",
-                "value": 64
+                "value": 68
               }
             ]
           },
@@ -807,7 +747,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 77
+                "value": 74
               },
               {
                 "id": "links",
@@ -829,7 +769,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 72
+                "value": 63
               }
             ]
           },
@@ -841,7 +781,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 90
+                "value": 91
               }
             ]
           },
@@ -853,7 +793,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 222
+                "value": 200
               }
             ]
           },
@@ -865,7 +805,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 191
+                "value": 180
               }
             ]
           },
@@ -877,7 +817,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 76
+                "value": 80
               },
               {
                 "id": "thresholds",
@@ -932,20 +872,45 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 305
+                "value": 323
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RSI_Industry"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 110
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SMA_Industry"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 130
               }
             ]
           }
         ]
       },
       "gridPos": {
-        "h": 12,
-        "w": 15,
-        "x": 8,
-        "y": 21
+        "h": 14,
+        "w": 23,
+        "x": 0,
+        "y": 20
       },
-      "id": 16,
+      "id": 17,
       "options": {
+        "cellHeight": "sm",
         "footer": {
           "countRows": false,
           "fields": "",
@@ -954,15 +919,16 @@
           ],
           "show": false
         },
+        "frameIndex": 1,
         "showHeader": true,
         "sortBy": [
           {
             "desc": false,
-            "displayName": "RSI"
+            "displayName": "industry"
           }
         ]
       },
-      "pluginVersion": "9.4.3",
+      "pluginVersion": "10.3.1",
       "targets": [
         {
           "columns": [],
@@ -1003,9 +969,84 @@
             "data": "",
             "method": "GET"
           }
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "ds_postgres_moneymaker"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "select avg(rsi_rating) as \"RSI_Industry\", avg(sma_rating) as \"SMA_Industry\", industry \nfrom stocks \nwhere industry IN ($industry)\ngroup by industry\norder by \"RSI_Industry\" desc, \"SMA_Industry\" asc; ",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
         }
       ],
-      "title": "Ticker - Watchlist",
+      "title": "Watchlist",
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "industry",
+            "mode": "outerTabular"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "MACD": 6,
+              "RSI": 4,
+              "RSI_Industry": 2,
+              "SMA": 5,
+              "SMA_Industry": 3,
+              "beta": 9,
+              "dividend_yield": 10,
+              "industry": 1,
+              "name": 8,
+              "pe": 11,
+              "sector": 0,
+              "ticker": 7
+            },
+            "renameByName": {}
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "isNull",
+                  "options": {}
+                },
+                "fieldName": "ticker"
+              }
+            ],
+            "match": "any",
+            "type": "exclude"
+          }
+        }
+      ],
       "type": "table"
     },
     {
@@ -1018,7 +1059,7 @@
         "h": 5,
         "w": 23,
         "x": 0,
-        "y": 33
+        "y": 34
       },
       "id": 14,
       "options": {
@@ -1026,6 +1067,18 @@
           "orientation": "left",
           "size": "sm"
         },
+        "confirmModal": {
+          "body": "Please confirm to update changed values",
+          "cancel": "Cancel",
+          "columns": {
+            "name": "Label",
+            "newValue": "New Value",
+            "oldValue": "Old Value"
+          },
+          "confirm": "Confirm",
+          "title": "Confirm update request"
+        },
+        "elementValueChanged": "",
         "elements": [
           {
             "id": "operation",
@@ -1050,13 +1103,17 @@
         "initial": {
           "code": "console.log(data, response, initial, elements)",
           "contentType": "application/json",
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
           "header": [],
           "highlight": false,
           "highlightColor": "red",
           "method": "-",
+          "payloadMode": "all",
           "url": "http://localhost:8000/universe-import"
         },
         "layout": {
+          "orientation": "horizontal",
+          "padding": 10,
           "variant": "single"
         },
         "reset": {
@@ -1066,6 +1123,17 @@
           "text": "Reset",
           "variant": "hidden"
         },
+        "resetAction": {
+          "code": "if (response && response.ok) {\n  notifySuccess(['Update', 'Values updated successfully.']);\n  locationService.reload();\n} else {\n  notifyError(['Update', 'An error occured updating values.']);\n}",
+          "confirm": false,
+          "getPayload": "return {\n  rawSql: '',\n  format: 'table',\n}",
+          "mode": "initial"
+        },
+        "saveDefault": {
+          "icon": "save",
+          "text": "Save Default",
+          "variant": "hidden"
+        },
         "submit": {
           "backgroundColor": "purple",
           "foregroundColor": "yellow",
@@ -1073,24 +1141,26 @@
           "text": "Submit",
           "variant": "primary"
         },
+        "sync": true,
         "update": {
           "code": "if (response && response.ok) {\n  response.json().then((resp) => {\n    notifySuccess([\"Update\", resp[\"result\"]]);\n    initialRequest();\n  });\n} else {\n  response.json().then((resp) => {\n    notifyError([\"Error\", resp[\"result\"]]);\n    initialRequest();\n  });\n}",
           "confirm": false,
           "contentType": "application/json",
+          "getPayload": "const payload = {};\n\nelements.forEach((element) => {\n  if (!element.value) {\n    return;\n  }\n\n  payload[element.id] = element.value;\n})\n\nreturn payload;\n\n/**\n * Data Source payload\n */ \nreturn {\n  rawSql: '',\n  format: 'table',\n};",
           "header": [],
           "method": "POST",
-          "updatedOnly": false,
+          "payloadMode": "all",
           "url": "http://localhost:8000/universe-import"
         }
       },
+      "pluginVersion": "3.6.0",
       "title": "Analytics",
       "type": "volkovlabs-form-panel"
     }
   ],
-  "refresh": "5s",
+  "refresh": "30s",
   "revision": 1,
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [
     "finance"
   ],
@@ -1155,8 +1225,8 @@
       {
         "current": {
           "selected": false,
-          "text": "50",
-          "value": "50"
+          "text": "99",
+          "value": "99"
         },
         "description": "0 to 99",
         "hide": 0,
@@ -1169,15 +1239,15 @@
             "value": "50"
           }
         ],
-        "query": "50",
+        "query": "99",
         "skipUrlSync": false,
         "type": "textbox"
       },
       {
         "current": {
           "selected": true,
-          "text": "2",
-          "value": "2"
+          "text": "1",
+          "value": "1"
         },
         "hide": 0,
         "includeAll": false,
@@ -1186,12 +1256,12 @@
         "name": "sma_rating_f",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "1",
             "value": "1"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "2",
             "value": "2"
           },
@@ -1219,8 +1289,8 @@
       {
         "current": {
           "selected": true,
-          "text": "2",
-          "value": "2"
+          "text": "1",
+          "value": "1"
         },
         "hide": 0,
         "includeAll": false,
@@ -1229,12 +1299,12 @@
         "name": "macd_rating_f",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "1",
             "value": "1"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "2",
             "value": "2"
           },
@@ -1269,6 +1339,6 @@
   "timezone": "",
   "title": "Market Screen",
   "uid": "ooEr-YoVz",
-  "version": 9,
+  "version": 6,
   "weekStart": ""
 }

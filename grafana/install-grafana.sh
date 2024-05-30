@@ -9,12 +9,12 @@ rm -rf $GRAFANA_HOME
 
 echo "install grafana"
 mkdir -p $GRAFANA_HOME
-mv ./grafana-$GRAFANA_VERSION $GRAFANA_BASEDIR
+mv ./grafana-v$GRAFANA_VERSION $GRAFANA_BASEDIR
 
 echo "install grafana plugins"
-$GRAFANA_HOME/bin/grafana-cli --pluginsDir $GRAFANA_HOME/data/plugins plugins install yesoreyeram-infinity-datasource
-$GRAFANA_HOME/bin/grafana-cli --pluginsDir $GRAFANA_HOME/data/plugins plugins install volkovlabs-form-panel
-$GRAFANA_HOME/bin/grafana-cli --pluginsDir $GRAFANA_HOME/data/plugins plugins install marcusolsson-dynamictext-panel
-$GRAFANA_HOME/bin/grafana-cli --pluginsDir $GRAFANA_HOME/data/plugins plugins install marcusolsson-static-datasource
+$GRAFANA_HOME/bin/grafana cli --pluginsDir $GRAFANA_HOME/data/plugins plugins install yesoreyeram-infinity-datasource
+$GRAFANA_HOME/bin/grafana cli --pluginsDir $GRAFANA_HOME/data/plugins plugins install volkovlabs-form-panel
+$GRAFANA_HOME/bin/grafana cli --pluginsDir $GRAFANA_HOME/data/plugins plugins install marcusolsson-dynamictext-panel
+$GRAFANA_HOME/bin/grafana cli --pluginsDir $GRAFANA_HOME/data/plugins plugins install marcusolsson-static-datasource
 
 rm -f grafana-enterprise-$GRAFANA_VERSION.darwin-amd64.tar.gz

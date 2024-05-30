@@ -8,7 +8,7 @@ import os
 import logging
 import json
 from prometheus_flask_exporter import PrometheusMetrics
-import ticker_analytics, pinecone_analytics
+import ticker_analytics
 from multiprocessing import Process
 
 app = Flask(__name__)
@@ -108,36 +108,36 @@ def watchlist():
         logging.error(be)
         return jsonify(data), 500
 
-@app.route('/pinecone', methods=['POST'])
-#@token_required
-def pinecone():
-    data = {}
-    try:
-        query = request.json
-        logging.info(f"query is: {query}")
-        prompt = query['text_prompt']
-        max_rsi_rating = query['rsi_max']
-        max_macd_rating = query['macd_max']
-        max_sma_rating = query['sma_max']
+# @app.route('/pinecone', methods=['POST'])
+# #@token_required
+# def pinecone():
+#     data = {}
+#     try:
+#         query = request.json
+#         logging.info(f"query is: {query}")
+#         prompt = query['text_prompt']
+#         max_rsi_rating = query['rsi_max']
+#         max_macd_rating = query['macd_max']
+#         max_sma_rating = query['sma_max']
 
-        pinecone_results = pinecone_analytics.pinecone_query(prompt=prompt,
-                                                           max_rsi_rating=max_rsi_rating,
-                                                           max_macd_rating=max_macd_rating,
-                                                           max_sma_rating=max_sma_rating)
-        data['status'] = "OK"
-        #data['result'] = '\n'.join([str(item) for item in pinecone_results])
+#         pinecone_results = pinecone_analytics.pinecone_query(prompt=prompt,
+#                                                            max_rsi_rating=max_rsi_rating,
+#                                                            max_macd_rating=max_macd_rating,
+#                                                            max_sma_rating=max_sma_rating)
+#         data['status'] = "OK"
+#         #data['result'] = '\n'.join([str(item) for item in pinecone_results])
 
-        data['result'] = json.dumps(pinecone_results)
-        result_json = jsonify(data)
-        logging.info(f"pinecone query in json: {data}")
-        return result_json, 200
-    except BaseException as be:
-        data['result'] = f"{be}"
-        data['status'] = "ERROR"
-        logging.error(f"error processing query: {query}")
-        logging.error(be)
-        raise be
-        return jsonify(data), 500
+#         data['result'] = json.dumps(pinecone_results)
+#         result_json = jsonify(data)
+#         logging.info(f"pinecone query in json: {data}")
+#         return result_json, 200
+#     except BaseException as be:
+#         data['result'] = f"{be}"
+#         data['status'] = "ERROR"
+#         logging.error(f"error processing query: {query}")
+#         logging.error(be)
+#         raise be
+#         return jsonify(data), 500
 
 if __name__ == '__main__':
     app.run(host= '0.0.0.0',debug=True, port='8000')
